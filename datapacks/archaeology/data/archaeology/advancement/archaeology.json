@@ -1,0 +1,17 @@
+{
+    "display": {
+        "title": "Archaeology Datapack",
+        "description": "Archaeology Datapack",
+        "icon": {
+            "id": "minecraft:brush"
+        },
+        "show_toast": true,
+        "announce_to_chat": false
+    },
+    "parent": "global:name",
+    "criteria": {
+        "trigger": {
+            "trigger": "minecraft:tick"
+        }
+    }
+}

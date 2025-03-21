@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archaeology Artifacts Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .instructions {
+            background-color: #f8f8f8;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .artifact-entry {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        textarea {
+            height: 80px;
+            font-family: monospace;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .action-buttons {
+            margin: 20px 0;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .info-box {
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        .example {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .artifact-tag {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .artifact-count {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        #functionOutput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Archaeology Artifacts Generator</h1>
+        
+        <div class="instructions">
+            <h3>How to Use This Tool:</h3>
+            <ol>
+                <li>First, create your custom Minecraft item using <a href="https://mcstacker.net/?cmd=give" target="_blank">MCStacker</a></li>
+                <li>Copy the generated command and paste it into the "Minecraft Item Command" field below</li>
+                <li>Add a name for your artifact (for reference purposes only)</li>
+                <li>The tool will assign a tag number automatically</li>
+                <li>Add as many artifacts as needed</li>
+                <li>Click "Generate Function" to create the give_artifacts.mcfunction file</li>
+            </ol>
+        </div>
+        
+        <div class="info-box">
+            <h3>Example:</h3>
+            <p>Original command from MCStacker:</p>
+            <div class="example">/give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."']] 1</div>
+            
+            <p>Command with added tag (automatically done by this tool):</p>
+            <div class="example">give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."'],custom_data={tag:1}] 1</div>
+            <p><strong>Note:</strong> The leading slash (/) is automatically removed in the mcfunction file as required.</p>
+        </div>
+        
+        <h2>Artifact List</h2>
+        
+        <div id="artifactList">
+            <!-- Artifacts will appear here -->
+        </div>
+        
+        <div class="action-buttons">
+            <button id="addArtifactBtn">Add New Artifact</button>
+            <button id="generateBtn">Generate Function</button>
+            <button id="downloadBtn">Download give_artifacts.mcfunction</button>
+        </div>
+        
+        <div id="functionOutput">
+            <h3>Generated Function:</h3>
+            <pre id="outputCode"></pre>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize artifacts array
+        let artifacts = [];
+        
+        // DOM elements
+        const artifactList = document.getElementById('artifactList');
+        const addArtifactBtn = document.getElementById('addArtifactBtn');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const outputCode = document.getElementById('outputCode');
+        const functionOutput = document.getElementById('functionOutput');
+        
+        // Add event listeners
+        addArtifactBtn.addEventListener('click', addArtifact);
+        generateBtn.addEventListener('click', generateFunction);
+        downloadBtn.addEventListener('click', downloadFunction);
+        
+        // Add an artifact
+        function addArtifact() {
+            const tagNum = artifacts.length + 1;
+            
+            artifacts.push({
+                name: '',
+                command: '',
+                tag: tagNum
+            });
+            
+            renderArtifacts();
+        }
+        
+        // Remove an artifact
+        function removeArtifact(index) {
+            artifacts.splice(index, 1);
+            
+            // Reassign tag numbers
+            artifacts.forEach((artifact, i) => {
+                artifact.tag = i + 1;
+            });
+            
+            renderArtifacts();
+        }
+        
+        // Update artifact data
+        function updateArtifact(index, field, value) {
+            artifacts[index][field] = value;
+        }
+        
+        // Render the artifact list
+        function renderArtifacts() {
+            artifactList.innerHTML = '';
+            
+            if (artifacts.length === 0) {
+                artifactList.innerHTML = '<p>No artifacts added yet. Click "Add New Artifact" to begin.</p>';
+                return;
+            }
+            
+            artifacts.forEach((artifact, index) => {
+                const artifactDiv = document.createElement('div');
+                artifactDiv.className = 'artifact-entry';
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = '×';
+                deleteBtn.addEventListener('click', () => removeArtifact(index));
+                
+                artifactDiv.innerHTML = `
+                    <span class="artifact-count">#${index + 1}</span>
+                    <span class="artifact-tag">Tag: ${artifact.tag}</span>
+                    <label>
+                        <strong>Artifact Name (for reference):</strong>
+                        <input type="text" value="${artifact.name}" 
+                            placeholder="e.g., Flint Arrowhead"
+                            onchange="updateArtifact(${index}, 'name', this.value)">
+                    </label>
+                    <label>
+                        <strong>Minecraft Item Command:</strong>
+                        <textarea 
+                            placeholder="Paste command from MCStacker here..."
+                            onchange="updateArtifact(${index}, 'command', this.value)">${artifact.command}</textarea>
+                    </label>
+                `;
+                
+                artifactDiv.appendChild(deleteBtn);
+                artifactList.appendChild(artifactDiv);
+            });
+        }
+        
+        // Generate the function file content
+        function generateFunction() {
+            if (artifacts.length === 0) {
+                alert('Please add at least one artifact first!');
+                return;
+            }
+            
+            let invalidArtifacts = artifacts.filter(a => !a.command.trim());
+            if (invalidArtifacts.length > 0) {
+                alert('Some artifacts are missing commands. Please complete all fields.');
+                return;
+            }
+            
+            let functionContent = '# give_artifacts.mcfunction\n';
+            functionContent += '# Generated by Archaeology Artifacts Generator\n';
+            functionContent += `# Total artifacts: ${artifacts.length}\n\n`;
+            
+            artifacts.forEach(artifact => {
+                // Parse and modify the command to add the tag
+                let command = artifact.command.trim();
+                
+                // Remove leading slash if present
+                if (command.startsWith('/')) {
+                    command = command.substring(1);
+                }
+                
+                // Check if command already has custom_data
+                if (command.includes('custom_data={')) {
+                    // Already has custom_data, add tag
+                    command = command.replace(/custom_data={\s*([^}]*)\s*}/, 
+                                              `custom_data={$1,tag:${artifact.tag}}`);
+                } else if (command.includes('] 1')) {
+                    // Add custom_data with tag before the closing ]
+                    command = command.replace(/\] 1$/, `,custom_data={tag:${artifact.tag}}] 1`);
+                } else {
+                    // Add custom_data with tag before quantity if no brackets
+                    command = command.replace(/ 1$/, `[custom_data={tag:${artifact.tag}}] 1`);
+                }
+                
+                const artifactName = artifact.name ? 
+                                    `# ${artifact.name} (Tag: ${artifact.tag})` : 
+                                    `# Artifact with Tag: ${artifact.tag}`;
+                
+                functionContent += `${artifactName}\n${command}\n\n`;
+            });
+            
+            outputCode.textContent = functionContent;
+            functionOutput.style.display = 'block';
+        }
+        
+        // Download the function file
+        function downloadFunction() {
+            if (!outputCode.textContent) {
+                alert('Please generate the function first!');
+                return;
+            }
+            
+            const blob = new Blob([outputCode.textContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'give_artifacts.mcfunction';
+            document.body.appendChild(a);
+            a.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
+        }
+        
+        // Initialize with one empty artifact
+        addArtifact();
+    </script>
+</body>
+</html>

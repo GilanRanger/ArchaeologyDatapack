@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archaeology Textbook Book Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .page { border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        textarea { width: 100%; height: 50px; }
+        button { margin: 5px; padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; }
+        button:hover { background-color: #f0f0f0; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
+        .hopper-config { background: #e9f7ff; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+        .tag-input { margin: 5px 0; }
+        .function-file { margin-top: 15px; border-top: 1px dashed #666; padding-top: 15px; }
+        .function-title { font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .download-btn { background-color: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        .download-all-btn { background-color: #2196F3; color: white; padding: 10px 15px; border: none; margin-top: 15px; border-radius: 4px; font-weight: bold; }
+        .generate-btn { background-color: #ff9800; color: white; font-weight: bold; border: none; }
+        .copy-btn { background-color: #673AB7; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h2>Archaeology Textbook Book Generator</h2>
+
+    <label>Title:</label>
+    <input type="text" id="bookTitle" placeholder="Enter book title"><br><br>
+
+    <label>Author:</label>
+    <input type="text" id="bookAuthor" placeholder="Enter author name"><br><br>
+
+    <div class="hopper-config">
+        <h3>Global Hopper Location:</h3>
+        <label>X:</label>
+        <input type="number" id="hopperX" placeholder="X coordinate"><br>
+        <label>Y:</label>
+        <input type="number" id="hopperY" placeholder="Y coordinate"><br>
+        <label>Z:</label>
+        <input type="number" id="hopperZ" placeholder="Z coordinate"><br>
+    </div>
+
+    <div class="hopper-config">
+        <h3>Function Namespace:</h3>
+        <input type="text" id="namespace" value="archaeology" placeholder="Enter function namespace">
+    </div>
+
+    <h3>Pages:</h3>
+    <div id="pagesContainer"></div>
+
+    <button onclick="addPage()">➕ Add Page</button>
+    <button onclick="generateCommand()" class="generate-btn">🚀 Generate Command & Files</button>
+    <button onclick="copyToClipboard()" class="copy-btn">📋 Copy Command</button>
+
+    <h3>Generated Command:</h3>
+    <pre id="output"></pre>
+
+    <button id="downloadAllBtn" class="download-all-btn" style="display: none;">📦 Download All Function Files as ZIP</button>
+
+    <h3>Function Files:</h3>
+    <div id="functionFiles"></div>
+
+    <script>
+        let pages = [];
+        let functionFiles = [];
+        let generatedCommand = "";
+
+        // Initialize with default state
+        window.onload = function() {
+            document.getElementById("bookTitle").value = "Archaeology Textbook";
+            document.getElementById("bookAuthor").value = "Daskalost My Brush";
+            document.getElementById("hopperX").value = "~";
+            document.getElementById("hopperY").value = "~";
+            document.getElementById("hopperZ").value = "~";
+            addPage("The sky is blue.", "true", "1,2,3", 1); // Default page
+        };
+
+        function renderAllPages() {
+            // Clear the pages container
+            let container = document.getElementById("pagesContainer");
+            container.innerHTML = "";
+            
+            // Rebuild all pages from the current pages array
+            pages.forEach((page, i) => {
+                let pageDiv = document.createElement("div");
+                pageDiv.className = "page";
+                pageDiv.id = `page-${i}`;
+
+                if (!Array.isArray(page.possibleTags)) {
+                    page.possibleTags = [];
+                }
+                
+                // Default to 1 if not set
+                if (!page.requiredAmount) {
+                    page.requiredAmount = 1;
+                }
+                
+                let tagValues = page.possibleTags.length > 0 ? page.possibleTags.join(", ") : "";
+
+                pageDiv.innerHTML = `
+                    <label>Statement:</label>
+                    <textarea oninput="updateStatement(${i}, this.value)">${page.statement}</textarea><br>
+                    
+                    <label>Correct Answer:</label>
+                    <input type="radio" name="answer${i}" value="true" ${page.correctAnswer === 'true' ? 'checked' : ''} onchange="updateAnswer(${i}, 'true')"> ✅ True
+                    <input type="radio" name="answer${i}" value="false" ${page.correctAnswer === 'false' ? 'checked' : ''} onchange="updateAnswer(${i}, 'false')"> ❌ False
+                    
+                    <div class="tag-input">
+                        <label>Possible Artifacts (comma-separated):</label>
+                        <input type="text" placeholder="1, 2, 3" value="${tagValues}" oninput="updatePossibleTags(${i}, this.value)">
+                    </div>
+
+                    <div class="tag-input">
+                        <label>Required Amount of Artifacts:</label>
+                        <input type="number" min="1" max="5" value="${page.requiredAmount}" oninput="updateRequiredAmount(${i}, this.value)">
+                    </div>
+                    
+                    <button onclick="removePage(${i})">🗑️ Remove</button>
+                `;
+                container.appendChild(pageDiv);
+            });
+        }
+
+        function addPage(statement = "", correctAnswer = "true", possibleTags = "1", requiredAmount = 1) {
+            if (pages.length >= 100) { // Minecraft books have a max of 100 pages
+                alert("Maximum number of pages reached!");
+                return;
+            }
+
+            let tags = possibleTags.split(",").map(tag => tag.trim()).filter(tag => tag && !isNaN(tag));
+            
+            // Add the new page to the pages array
+            pages.push({ 
+                statement: statement, 
+                correctAnswer: correctAnswer, 
+                possibleTags: tags,
+                requiredAmount: parseInt(requiredAmount)
+            });
+            
+            // Re-render all pages
+            renderAllPages();
+        }
+
+        function removePage(index) {
+            // Remove the page from the array
+            pages.splice(index, 1);
+            
+            // Re-render all pages with updated indices
+            renderAllPages();
+        }
+
+        function updateStatement(index, value) {
+            if (index < pages.length) {
+                pages[index].statement = value;
+            }
+        }
+
+        function updateAnswer(index, value) {
+            if (index < pages.length) {
+                pages[index].correctAnswer = value;
+            }
+        }
+
+        function updatePossibleTags(index, value) {
+            if (index < pages.length) {
+                let tags = value.split(",").map(tag => tag.trim()).filter(tag => tag && !isNaN(tag)); // Filter valid numbers
+                pages[index].possibleTags = tags.slice(0, 5); // Limit to 5 tags
+                
+                // Make sure requiredAmount is not greater than possible tags
+                if (pages[index].requiredAmount > pages[index].possibleTags.length) {
+                    pages[index].requiredAmount = Math.max(1, pages[index].possibleTags.length);
+                    renderAllPages(); // Re-render to show the updated required amount
+                }
+            }
+        }
+
+        function updateRequiredAmount(index, value) {
+            if (index < pages.length) {
+                // Ensure the required amount is a valid number
+                let amount = parseInt(value);
+                if (isNaN(amount) || amount < 1) {
+                    amount = 1;
+                }
+                
+                // Make sure it's not greater than the number of possible tags
+                if (amount > pages[index].possibleTags.length) {
+                    amount = pages[index].possibleTags.length;
+                }
+                
+                pages[index].requiredAmount = amount;
+            }
+        }
+
+        function generateCommand() {
+            let title = document.getElementById("bookTitle").value || "Archaeology Textbook";
+            let author = document.getElementById("bookAuthor").value || "Daskalost My Brush";
+            let hopperX = document.getElementById("hopperX").value || "~";
+            let hopperY = document.getElementById("hopperY").value || "~";
+            let hopperZ = document.getElementById("hopperZ").value || "~";
+            let namespace = document.getElementById("namespace").value || "archaeo";
+
+            // Prepare the book command
+            let pageData = pages.map((page, index) => {
+                let statement = page.statement
+                    .replace(/\n/g, " ")  
+                    .replace(/\r/g, "")   
+                    .replace(/"/g, '\\"');
+                
+                // Create function names for this page
+                let checkTrueFunctionName = `${namespace}:check_page_${index + 1}_true`;
+                let checkFalseFunctionName = `${namespace}:check_page_${index + 1}_false`;
+                
+                // Create page text with function calls
+                let trueText = `{"text":"\\\\n\\\\n[True]","color":"green","clickEvent":{"action":"run_command","value":"/function ${checkTrueFunctionName}"}}`;
+                let falseText = `{"text":"\\\\n\\\\n[False]","color":"red","clickEvent":{"action":"run_command","value":"/function ${checkFalseFunctionName}"}}`;
+                
+                return `["${statement}",${trueText},${falseText}]`;
+            });
+
+            let command = `give @p written_book[written_book_content={title:"${title}",author:"${author}",pages:[${pageData.map(p => `'${p}'`).join(",")}]}] 1`;
+            generatedCommand = command;
+            document.getElementById("output").innerText = command;
+            
+            // Generate function files
+            functionFiles = [];
+            
+            // Create initialize function to set up scoreboard AND give the book
+            let initFunctionContent = `# Give the book to the player
+${command}
+
+# Initialize scoreboard for artifact checking
+scoreboard objectives add tagCheck dummy`;
+
+            functionFiles.push({
+                name: `${namespace}:init`,
+                content: initFunctionContent
+            });
+
+            // Create functions for each page
+            pages.forEach((page, index) => {
+                // Create function names for checking True and False clicks
+                let checkTrueFunctionName = `${namespace}:check_page_${index + 1}_true`;
+                let checkFalseFunctionName = `${namespace}:check_page_${index + 1}_false`;
+                
+                // Create correct/incorrect function names
+                let correctFunctionName = `${namespace}:answer_correct`;
+                let incorrectFunctionName = `${namespace}:answer_incorrect`;
+                
+                // Check True Function: When True is clicked
+                let checkTrueFunctionContent = `# Check function for page ${index + 1} (True clicked)
+# Reset tag counter
+scoreboard players set @s tagCheck 0
+
+# Check for each possible tag
+${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
+
+# Execute appropriate function based on whether enough tags are present
+execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'true' ? correctFunctionName : incorrectFunctionName}
+execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
+                
+                // Check False Function: When False is clicked
+                let checkFalseFunctionContent = `# Check function for page ${index + 1} (False clicked)
+# Reset tag counter
+scoreboard players set @s tagCheck 0
+
+# Check for each possible tag
+${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
+
+# Execute appropriate function based on whether enough tags are present
+execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'false' ? correctFunctionName : incorrectFunctionName}
+execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
+                
+                // Correct/incorrect function contents
+                let correctFunctionContent = `# Correct answer function
+tellraw @s {"text":"✅ Correct!","color":"green"}`;
+                
+                let incorrectFunctionContent = `# Incorrect answer function
+tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
+                
+                // Add the check functions to our list
+                functionFiles.push({
+                    name: checkTrueFunctionName,
+                    content: checkTrueFunctionContent
+                });
+                
+                functionFiles.push({
+                    name: checkFalseFunctionName,
+                    content: checkFalseFunctionContent
+                });
+                
+                // Add the correct/incorrect functions (once) if they don't exist yet
+                if (!functionFiles.some(f => f.name === correctFunctionName)) {
+                    functionFiles.push({
+                        name: correctFunctionName,
+                        content: correctFunctionContent
+                    });
+                }
+                
+                if (!functionFiles.some(f => f.name === incorrectFunctionName)) {
+                    functionFiles.push({
+                        name: incorrectFunctionName,
+                        content: incorrectFunctionContent
+                    });
+                }
+            });
+            
+            // Display function files
+            let functionFilesDiv = document.getElementById("functionFiles");
+            functionFilesDiv.innerHTML = "";
+            
+            functionFiles.forEach(file => {
+                let fileDiv = document.createElement("div");
+                fileDiv.className = "function-file";
+                
+                let fileName = document.createElement("div");
+                fileName.className = "function-title";
+                
+                // Split the name to get the namespace and path
+                let nameParts = file.name.split(':');
+                let fullPath = `${nameParts[0]}/functions/${nameParts[1]}.mcfunction`;
+                
+                fileName.innerHTML = `
+                    <span>File: ${fullPath}</span>
+                    <button class="download-btn" onclick="downloadFunction('${file.name}')">📥 Download</button>
+                `;
+                
+                let fileContent = document.createElement("pre");
+                fileContent.innerText = file.content;
+                
+                fileDiv.appendChild(fileName);
+                fileDiv.appendChild(fileContent);
+                functionFilesDiv.appendChild(fileDiv);
+            });
+            
+            // Show the download all button
+            document.getElementById("downloadAllBtn").style.display = "block";
+            document.getElementById("downloadAllBtn").onclick = downloadAllFunctions;
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(document.getElementById("output").innerText).then(() => {
+                alert("Command copied to clipboard!");
+            });
+        }
+
+        function downloadFunction(functionName) {
+            // Find the function in our array
+            const func = functionFiles.find(f => f.name === functionName);
+            if (!func) return;
+            
+            // Split the name to get the namespace and path
+            let nameParts = functionName.split(':');
+            let fileName = `${nameParts[1]}.mcfunction`;
+            
+            // Create a blob with the content
+            const blob = new Blob([func.content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create a temporary link and click it
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            
+            // Clean up
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadAllFunctions() {
+            // Check if the browser supports the JSZip library
+            if (typeof JSZip === 'undefined') {
+                // If JSZip is not loaded, dynamically load it
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+                script.onload = createAndDownloadZip;
+                document.head.appendChild(script);
+            } else {
+                createAndDownloadZip();
+            }
+        }
+
+        function createAndDownloadZip() {
+            const zip = new JSZip();
+            const namespace = document.getElementById("namespace").value || "archaeo";
+            
+            // Create folders for each namespace
+            functionFiles.forEach(file => {
+                let nameParts = file.name.split(':');
+                let namespaceName = nameParts[0];
+                let functionPath = nameParts[1];
+                
+                // Add file to the correct namespace folder
+                zip.folder(`${namespaceName}/functions`).file(`${functionPath}.mcfunction`, file.content);
+            });
+            
+            // Generate pack.mcmeta file
+            const packMcmeta = {
+                pack: {
+                    pack_format: 15, // For Minecraft 1.20.5
+                    description: "Archaeology Textbook Functions"
+                }
+            };
+            
+            zip.file("pack.mcmeta", JSON.stringify(packMcmeta, null, 2));
+            
+            // Generate the ZIP file
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+                // Create a download link
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(content);
+                a.download = `${namespace}_functions.zip`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+            });
+        }
+    </script>
+    <!-- Add JSZip for ZIP file creation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>
