@@ -311,24 +311,6 @@
     },
     "done": true
   },
-  "archaeology:archaeology": {
-    "criteria": {
-      "trigger": "2025-03-20 18:04:49 -0700"
-    },
-    "done": true
-  },
-  "global:name": {
-    "criteria": {
-      "tick": "2025-03-20 18:04:49 -0700"
-    },
-    "done": true
-  },
-  "global:root": {
-    "criteria": {
-      "tick": "2025-03-20 18:04:49 -0700"
-    },
-    "done": true
-  },
   "minecraft:recipes/transportation/dark_oak_chest_boat": {
     "criteria": {
       "has_boat": "2025-03-20 18:09:22 -0700"
@@ -386,6 +368,24 @@
   "minecraft:recipes/transportation/birch_chest_boat": {
     "criteria": {
       "has_boat": "2025-03-20 18:09:22 -0700"
+    },
+    "done": true
+  },
+  "archaeology:archaeology": {
+    "criteria": {
+      "trigger": "2025-03-20 21:36:23 -0700"
+    },
+    "done": true
+  },
+  "global:name": {
+    "criteria": {
+      "tick": "2025-03-20 21:36:23 -0700"
+    },
+    "done": true
+  },
+  "global:root": {
+    "criteria": {
+      "tick": "2025-03-20 21:36:23 -0700"
     },
     "done": true
   },
