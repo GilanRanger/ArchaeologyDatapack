@@ -45,7 +45,7 @@
             cursor: pointer;
             font-weight: bold;
         }
-        input[type="text"], textarea {
+        input[type="text"], textarea, input[type="number"] {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -109,6 +109,51 @@
         #functionOutput {
             display: none;
         }
+        .transform-fields {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .transform-fields label {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        .transform-fields input {
+            width: 100%;
+        }
+        .transform-container {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .transform-title {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .dice-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            margin-left: 8px;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .dice-btn:hover {
+            background-color: #5a6268;
+        }
+        .rotation-display {
+            font-family: monospace;
+            background-color: #e9ecef;
+            padding: 6px;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +167,7 @@
                 <li>Copy the generated command and paste it into the "Minecraft Item Command" field below</li>
                 <li>Add a name for your artifact (for reference purposes only)</li>
                 <li>The tool will assign a tag number automatically</li>
+                <li>Set scale and rotation values for your artifact (use the dice button for random rotation)</li>
                 <li>Add as many artifacts as needed</li>
                 <li>Click "Generate Function" to create the give_artifacts.mcfunction file</li>
             </ol>
@@ -132,8 +178,8 @@
             <p>Original command from MCStacker:</p>
             <div class="example">/give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."']] 1</div>
             
-            <p>Command with added tag (automatically done by this tool):</p>
-            <div class="example">give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."'],custom_data={tag:1}] 1</div>
+            <p>Command with added tag, scale, and rotation (automatically done by this tool):</p>
+            <div class="example">give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."'],custom_data={tag:1,scale:[0.5f,0.5f,0.5f],rotation:[0f,0f,0f,1f]}] 1</div>
             <p><strong>Note:</strong> The leading slash (/) is automatically removed in the mcfunction file as required.</p>
         </div>
         
@@ -172,14 +218,67 @@
         generateBtn.addEventListener('click', generateFunction);
         downloadBtn.addEventListener('click', downloadFunction);
         
+        // Function to convert degrees to radians
+        function degToRad(degrees) {
+            return degrees * (Math.PI / 180);
+        }
+        
+        // Function to convert Euler angles to quaternion
+        function eulerToQuaternion(x, y, z) {
+            // Convert to radians
+            const xRad = degToRad(x);
+            const yRad = degToRad(y);
+            const zRad = degToRad(z);
+            
+            // Calculate quaternion components
+            const cy = Math.cos(zRad * 0.5);
+            const sy = Math.sin(zRad * 0.5);
+            const cp = Math.cos(yRad * 0.5);
+            const sp = Math.sin(yRad * 0.5);
+            const cr = Math.cos(xRad * 0.5);
+            const sr = Math.sin(xRad * 0.5);
+            
+            const qx = sr * cp * cy - cr * sp * sy;
+            const qy = cr * sp * cy + sr * cp * sy;
+            const qz = cr * cp * sy - sr * sp * cy;
+            const qw = cr * cp * cy + sr * sp * sy;
+            
+            // Return formatted quaternion
+            return [
+                qx.toFixed(3),
+                qy.toFixed(3),
+                qz.toFixed(3),
+                qw.toFixed(3)
+            ];
+        }
+        
+        // Generate a random quaternion
+        function randomRotation() {
+            // Random Euler angles
+            const x = Math.floor(Math.random() * 360);
+            const y = Math.floor(Math.random() * 360);
+            const z = Math.floor(Math.random() * 360);
+            
+            return {
+                euler: [x, y, z],
+                quaternion: eulerToQuaternion(x, y, z)
+            };
+        }
+        
         // Add an artifact
         function addArtifact() {
             const tagNum = artifacts.length + 1;
+            const rot = randomRotation();
             
             artifacts.push({
                 name: '',
                 command: '',
-                tag: tagNum
+                tag: tagNum,
+                scale: 0.5,
+                rotX: rot.euler[0],
+                rotY: rot.euler[1],
+                rotZ: rot.euler[2],
+                quaternion: rot.quaternion
             });
             
             renderArtifacts();
@@ -200,6 +299,42 @@
         // Update artifact data
         function updateArtifact(index, field, value) {
             artifacts[index][field] = value;
+            
+            // Update quaternion if rotation changed
+            if (field === 'rotX' || field === 'rotY' || field === 'rotZ') {
+                const artifact = artifacts[index];
+                artifact.quaternion = eulerToQuaternion(artifact.rotX, artifact.rotY, artifact.rotZ);
+                updateRotationDisplay(index);
+            }
+        }
+        
+        // Update rotation display
+        function updateRotationDisplay(index) {
+            const display = document.getElementById(`rotation-display-${index}`);
+            const artifact = artifacts[index];
+            if (display) {
+                display.textContent = `[${artifact.quaternion[0]}f,${artifact.quaternion[1]}f,${artifact.quaternion[2]}f,${artifact.quaternion[3]}f]`;
+            }
+        }
+        
+        // Set random rotation for an artifact
+        function setRandomRotation(index) {
+            const rot = randomRotation();
+            artifacts[index].rotX = rot.euler[0];
+            artifacts[index].rotY = rot.euler[1];
+            artifacts[index].rotZ = rot.euler[2];
+            artifacts[index].quaternion = rot.quaternion;
+            
+            // Update UI
+            const xInput = document.getElementById(`rotX-${index}`);
+            const yInput = document.getElementById(`rotY-${index}`);
+            const zInput = document.getElementById(`rotZ-${index}`);
+            
+            if (xInput) xInput.value = rot.euler[0];
+            if (yInput) yInput.value = rot.euler[1];
+            if (zInput) zInput.value = rot.euler[2];
+            
+            updateRotationDisplay(index);
         }
         
         // Render the artifact list
@@ -235,6 +370,47 @@
                             placeholder="Paste command from MCStacker here..."
                             onchange="updateArtifact(${index}, 'command', this.value)">${artifact.command}</textarea>
                     </label>
+                    
+                    <div class="transform-container">
+                        <div class="transform-title">Transform Properties:</div>
+                        <div class="transform-fields">
+                            <label>
+                                Scale:
+                                <input type="number" step="0.1" min="0.1" max="10" value="${artifact.scale}" 
+                                    onchange="updateArtifact(${index}, 'scale', parseFloat(this.value))">
+                            </label>
+                            <label>
+                                Rotation:
+                                <button class="dice-btn" onclick="setRandomRotation(${index})">🎲</button>
+                            </label>
+                        </div>
+                        
+                        <div class="transform-fields">
+                            <label>
+                                X:
+                                <input id="rotX-${index}" type="number" step="5" min="0" max="360" value="${artifact.rotX}" 
+                                    onchange="updateArtifact(${index}, 'rotX', parseInt(this.value))">
+                            </label>
+                            <label>
+                                Y:
+                                <input id="rotY-${index}" type="number" step="5" min="0" max="360" value="${artifact.rotY}" 
+                                    onchange="updateArtifact(${index}, 'rotY', parseInt(this.value))">
+                            </label>
+                        </div>
+                        
+                        <div class="transform-fields">
+                            <label>
+                                Z:
+                                <input id="rotZ-${index}" type="number" step="5" min="0" max="360" value="${artifact.rotZ}" 
+                                    onchange="updateArtifact(${index}, 'rotZ', parseInt(this.value))">
+                            </label>
+                            <div></div>
+                        </div>
+                        
+                        <div class="rotation-display" id="rotation-display-${index}">
+                            [${artifact.quaternion[0]}f,${artifact.quaternion[1]}f,${artifact.quaternion[2]}f,${artifact.quaternion[3]}f]
+                        </div>
+                    </div>
                 `;
                 
                 artifactDiv.appendChild(deleteBtn);
@@ -260,7 +436,7 @@
             functionContent += `# Total artifacts: ${artifacts.length}\n\n`;
             
             artifacts.forEach(artifact => {
-                // Parse and modify the command to add the tag
+                // Parse and modify the command to add the tag, scale, and rotation
                 let command = artifact.command.trim();
                 
                 // Remove leading slash if present
@@ -268,24 +444,33 @@
                     command = command.substring(1);
                 }
                 
+                // Format quaternion and scale
+                const quaternion = artifact.quaternion;
+                const scaleValue = artifact.scale.toFixed(1);
+                
+                // Format the custom data with tag, scale, and rotation values
+                const customData = `tag:${artifact.tag},scale:[${scaleValue}f,${scaleValue}f,${scaleValue}f],rotation:[${quaternion[0]}f,${quaternion[1]}f,${quaternion[2]}f,${quaternion[3]}f]`;
+                
                 // Check if command already has custom_data
                 if (command.includes('custom_data={')) {
-                    // Already has custom_data, add tag
+                    // Already has custom_data, add our properties
                     command = command.replace(/custom_data={\s*([^}]*)\s*}/, 
-                                              `custom_data={$1,tag:${artifact.tag}}`);
+                                             `custom_data={$1,${customData}}`);
                 } else if (command.includes('] 1')) {
-                    // Add custom_data with tag before the closing ]
-                    command = command.replace(/\] 1$/, `,custom_data={tag:${artifact.tag}}] 1`);
+                    // Add custom_data before the closing ]
+                    command = command.replace(/\] 1$/, `,custom_data={${customData}}] 1`);
                 } else {
                     // Add custom_data with tag before quantity if no brackets
-                    command = command.replace(/ 1$/, `[custom_data={tag:${artifact.tag}}] 1`);
+                    command = command.replace(/ 1$/, `[custom_data={${customData}}] 1`);
                 }
                 
                 const artifactName = artifact.name ? 
                                     `# ${artifact.name} (Tag: ${artifact.tag})` : 
                                     `# Artifact with Tag: ${artifact.tag}`;
                 
-                functionContent += `${artifactName}\n${command}\n\n`;
+                functionContent += `${artifactName}\n`;
+                functionContent += `# Scale: [${scaleValue}f,${scaleValue}f,${scaleValue}f], Rotation: [${quaternion[0]}f,${quaternion[1]}f,${quaternion[2]}f,${quaternion[3]}f]\n`;
+                functionContent += `${command}\n\n`;
             });
             
             outputCode.textContent = functionContent;

@@ -206,9 +206,9 @@
                     .replace(/\r/g, "")   
                     .replace(/"/g, '\\"');
                 
-                // Create function names for this page
-                let checkTrueFunctionName = `${namespace}:check_page_${index + 1}_true`;
-                let checkFalseFunctionName = `${namespace}:check_page_${index + 1}_false`;
+                // Create function names for this page (now using the textbook subdirectory)
+                let checkTrueFunctionName = `${namespace}:textbook/check_page_${index + 1}_true`;
+                let checkFalseFunctionName = `${namespace}:textbook/check_page_${index + 1}_false`;
                 
                 // Create page text with function calls
                 let trueText = `{"text":"\\\\n\\\\n[True]","color":"green","clickEvent":{"action":"run_command","value":"/function ${checkTrueFunctionName}"}}`;
@@ -232,19 +232,19 @@ ${command}
 scoreboard objectives add tagCheck dummy`;
 
             functionFiles.push({
-                name: `${namespace}:init`,
+                name: `${namespace}:textbook/init`,
                 content: initFunctionContent
             });
 
             // Create functions for each page
             pages.forEach((page, index) => {
-                // Create function names for checking True and False clicks
-                let checkTrueFunctionName = `${namespace}:check_page_${index + 1}_true`;
-                let checkFalseFunctionName = `${namespace}:check_page_${index + 1}_false`;
+                // Create function names for checking True and False clicks (in textbook subdirectory)
+                let checkTrueFunctionName = `${namespace}:textbook/check_page_${index + 1}_true`;
+                let checkFalseFunctionName = `${namespace}:textbook/check_page_${index + 1}_false`;
                 
-                // Create correct/incorrect function names
-                let correctFunctionName = `${namespace}:answer_correct`;
-                let incorrectFunctionName = `${namespace}:answer_incorrect`;
+                // Create correct/incorrect function names (in textbook subdirectory)
+                let correctFunctionName = `${namespace}:textbook/answer_correct`;
+                let incorrectFunctionName = `${namespace}:textbook/answer_incorrect`;
                 
                 // Check True Function: When True is clicked
                 let checkTrueFunctionContent = `# Check function for page ${index + 1} (True clicked)
