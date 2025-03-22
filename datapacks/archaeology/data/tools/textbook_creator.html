@@ -229,7 +229,12 @@
 ${command}
 
 # Initialize scoreboard for artifact checking
-scoreboard objectives add tagCheck dummy`;
+scoreboard objectives add tagCheck dummy
+scoreboard objectives add textbook_correct dummy "Correct Answers"
+scoreboard objectives setdisplay sidebar textbook_correct
+
+# Initialize scoreboard objectives for each question
+${pages.map((_, index) => `scoreboard objectives add textbook_q${index + 1} dummy\nscoreboard players add @p textbook_q${index + 1} 0`).join('\n')}`;
 
             functionFiles.push({
                 name: `${namespace}:textbook/init`,
@@ -256,6 +261,8 @@ ${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ
 
 # Execute appropriate function based on whether enough tags are present
 execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'true' ? correctFunctionName : incorrectFunctionName}
+execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players set @s textbook_q${index + 1} 1
+execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 1 run scoreboard players add @s textbook_correct 1
 execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
                 
                 // Check False Function: When False is clicked
@@ -268,6 +275,8 @@ ${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ
 
 # Execute appropriate function based on whether enough tags are present
 execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'false' ? correctFunctionName : incorrectFunctionName}
+execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players set @s textbook_q${index + 1} 1
+execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 1 run scoreboard players add @s textbook_correct 1
 execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
                 
                 // Correct/incorrect function contents

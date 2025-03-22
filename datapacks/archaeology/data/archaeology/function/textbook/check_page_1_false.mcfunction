@@ -8,5 +8,7 @@ execute if block 15 -60 11 minecraft:hopper{Items:[{components:{"minecraft:custo
 execute if block 15 -60 11 minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:3}}}]} run scoreboard players add @s tagCheck 1
 
 # Execute appropriate function based on whether enough tags are present
-execute if score @s tagCheck matches 2.. run function archaeology:textbook/answer_correct
-execute unless score @s tagCheck matches 2.. run function archaeology:textbook/answer_incorrect
+execute if score @s tagCheck matches 1.. run function archaeology:textbook/answer_incorrect
+execute if score @s tagCheck matches 1.. if score @s textbook_q1 matches 0 run scoreboard players set @s textbook_q1 1
+execute if score @s tagCheck matches 1.. if score @s textbook_q1 matches 1 run scoreboard players add @s textbook_correct 1
+execute unless score @s tagCheck matches 1.. run function archaeology:textbook/answer_incorrect
