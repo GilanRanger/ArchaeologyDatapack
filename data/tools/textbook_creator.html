@@ -1,26 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archaeology Textbook Book Generator</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .page { border: 1px solid #ccc; padding: 10px; margin: 10px 0; border-radius: 5px; }
-        textarea { width: 100%; height: 50px; }
-        button { margin: 5px; padding: 8px 12px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; }
-        button:hover { background-color: #f0f0f0; }
-        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; }
-        .hopper-config { background: #e9f7ff; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
-        .tag-input { margin: 5px 0; }
-        .function-file { margin-top: 15px; border-top: 1px dashed #666; padding-top: 15px; }
-        .function-title { font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
-        .download-btn { background-color: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
-        .download-all-btn { background-color: #2196F3; color: white; padding: 10px 15px; border: none; margin-top: 15px; border-radius: 4px; font-weight: bold; }
-        .generate-btn { background-color: #ff9800; color: white; font-weight: bold; border: none; }
-        .copy-btn { background-color: #673AB7; color: white; border: none; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .page {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 50px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+
+        .hopper-config {
+            background: #e9f7ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .tag-input {
+            margin: 5px 0;
+        }
+
+        .function-file {
+            margin-top: 15px;
+            border-top: 1px dashed #666;
+            padding-top: 15px;
+        }
+
+        .function-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .download-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .download-all-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .generate-btn {
+            background-color: #ff9800;
+            color: white;
+            font-weight: bold;
+            border: none;
+        }
+
+        .copy-btn {
+            background-color: #673AB7;
+            color: white;
+            border: none;
+        }
     </style>
 </head>
+
 <body>
     <h2>Archaeology Textbook Book Generator</h2>
 
@@ -55,7 +135,8 @@
     <h3>Generated Command:</h3>
     <pre id="output"></pre>
 
-    <button id="downloadAllBtn" class="download-all-btn" style="display: none;">📦 Download All Function Files as ZIP</button>
+    <button id="downloadAllBtn" class="download-all-btn" style="display: none;">📦 Download All Function Files as
+        ZIP</button>
 
     <h3>Function Files:</h3>
     <div id="functionFiles"></div>
@@ -66,7 +147,7 @@
         let generatedCommand = "";
 
         // Initialize with default state
-        window.onload = function() {
+        window.onload = function () {
             document.getElementById("bookTitle").value = "Archaeology Textbook";
             document.getElementById("bookAuthor").value = "Daskalost My Brush";
             document.getElementById("hopperX").value = "~";
@@ -79,7 +160,7 @@
             // Clear the pages container
             let container = document.getElementById("pagesContainer");
             container.innerHTML = "";
-            
+
             // Rebuild all pages from the current pages array
             pages.forEach((page, i) => {
                 let pageDiv = document.createElement("div");
@@ -89,12 +170,12 @@
                 if (!Array.isArray(page.possibleTags)) {
                     page.possibleTags = [];
                 }
-                
+
                 // Default to 1 if not set
                 if (!page.requiredAmount) {
                     page.requiredAmount = 1;
                 }
-                
+
                 let tagValues = page.possibleTags.length > 0 ? page.possibleTags.join(", ") : "";
 
                 pageDiv.innerHTML = `
@@ -128,15 +209,15 @@
             }
 
             let tags = possibleTags.split(",").map(tag => tag.trim()).filter(tag => tag && !isNaN(tag));
-            
+
             // Add the new page to the pages array
-            pages.push({ 
-                statement: statement, 
-                correctAnswer: correctAnswer, 
+            pages.push({
+                statement: statement,
+                correctAnswer: correctAnswer,
                 possibleTags: tags,
                 requiredAmount: parseInt(requiredAmount)
             });
-            
+
             // Re-render all pages
             renderAllPages();
         }
@@ -144,7 +225,7 @@
         function removePage(index) {
             // Remove the page from the array
             pages.splice(index, 1);
-            
+
             // Re-render all pages with updated indices
             renderAllPages();
         }
@@ -165,7 +246,7 @@
             if (index < pages.length) {
                 let tags = value.split(",").map(tag => tag.trim()).filter(tag => tag && !isNaN(tag)); // Filter valid numbers
                 pages[index].possibleTags = tags.slice(0, 5); // Limit to 5 tags
-                
+
                 // Make sure requiredAmount is not greater than possible tags
                 if (pages[index].requiredAmount > pages[index].possibleTags.length) {
                     pages[index].requiredAmount = Math.max(1, pages[index].possibleTags.length);
@@ -181,12 +262,12 @@
                 if (isNaN(amount) || amount < 1) {
                     amount = 1;
                 }
-                
+
                 // Make sure it's not greater than the number of possible tags
                 if (amount > pages[index].possibleTags.length) {
                     amount = pages[index].possibleTags.length;
                 }
-                
+
                 pages[index].requiredAmount = amount;
             }
         }
@@ -202,28 +283,28 @@
             // Prepare the book command
             let pageData = pages.map((page, index) => {
                 let statement = page.statement
-                    .replace(/\n/g, " ")  
-                    .replace(/\r/g, "")   
+                    .replace(/\n/g, " ")
+                    .replace(/\r/g, "")
                     .replace(/"/g, '\\"');
-                
+
                 // Create function names for this page (now using the textbook subdirectory)
                 let checkTrueFunctionName = `${namespace}:textbook/check_page_${index + 1}_true`;
                 let checkFalseFunctionName = `${namespace}:textbook/check_page_${index + 1}_false`;
-                
+
                 // Create page text with function calls
                 let trueText = `{"text":"\\\\n\\\\n[True]","color":"green","clickEvent":{"action":"run_command","value":"/function ${checkTrueFunctionName}"}}`;
                 let falseText = `{"text":"\\\\n\\\\n[False]","color":"red","clickEvent":{"action":"run_command","value":"/function ${checkFalseFunctionName}"}}`;
-                
+
                 return `["${statement}",${trueText},${falseText}]`;
             });
 
             let command = `give @p written_book[written_book_content={title:"${title}",author:"${author}",pages:[${pageData.map(p => `'${p}'`).join(",")}]}] 1`;
             generatedCommand = command;
             document.getElementById("output").innerText = command;
-            
+
             // Generate function files
             functionFiles = [];
-            
+
             // Create initialize function to set up scoreboard AND give the book
             let initFunctionContent = `# Give the book to the player
 ${command}
@@ -232,6 +313,7 @@ ${command}
 scoreboard objectives add tagCheck dummy
 scoreboard objectives add textbook_correct dummy "Correct Answers"
 scoreboard objectives setdisplay sidebar textbook_correct
+scoreboard players add @p textbook_correct 0
 
 # Initialize scoreboard objectives for each question
 ${pages.map((_, index) => `scoreboard objectives add textbook_q${index + 1} dummy\nscoreboard players add @p textbook_q${index + 1} 0`).join('\n')}`;
@@ -246,57 +328,59 @@ ${pages.map((_, index) => `scoreboard objectives add textbook_q${index + 1} dumm
                 // Create function names for checking True and False clicks (in textbook subdirectory)
                 let checkTrueFunctionName = `${namespace}:textbook/check_page_${index + 1}_true`;
                 let checkFalseFunctionName = `${namespace}:textbook/check_page_${index + 1}_false`;
-                
+
                 // Create correct/incorrect function names (in textbook subdirectory)
                 let correctFunctionName = `${namespace}:textbook/answer_correct`;
                 let incorrectFunctionName = `${namespace}:textbook/answer_incorrect`;
-                
+
                 // Check True Function: When True is clicked
                 let checkTrueFunctionContent = `# Check function for page ${index + 1} (True clicked)
-# Reset tag counter
-scoreboard players set @s tagCheck 0
+            # Reset tag counter
+            scoreboard players set @s tagCheck 0
 
-# Check for each possible tag
-${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
+            # Check for each possible tag
+            ${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
 
-# Execute appropriate function based on whether enough tags are present
-execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'true' ? correctFunctionName : incorrectFunctionName}
-execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players set @s textbook_q${index + 1} 1
-execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 1 run scoreboard players add @s textbook_correct 1
-execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
-                
+            # Execute appropriate function based on whether enough tags are present
+            execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'true' ? correctFunctionName : incorrectFunctionName}
+            ${page.correctAnswer === 'true' ?
+                        `execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players add @s textbook_correct 1
+            execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players set @s textbook_q${index + 1} 1` : ''}
+            execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
+
                 // Check False Function: When False is clicked
                 let checkFalseFunctionContent = `# Check function for page ${index + 1} (False clicked)
-# Reset tag counter
-scoreboard players set @s tagCheck 0
+            # Reset tag counter
+            scoreboard players set @s tagCheck 0
 
-# Check for each possible tag
-${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
+            # Check for each possible tag
+            ${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
 
-# Execute appropriate function based on whether enough tags are present
-execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'false' ? correctFunctionName : incorrectFunctionName}
-execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players set @s textbook_q${index + 1} 1
-execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 1 run scoreboard players add @s textbook_correct 1
-execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
-                
+            # Execute appropriate function based on whether enough tags are present
+            execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'false' ? correctFunctionName : incorrectFunctionName}
+            ${page.correctAnswer === 'false' ?
+                        `execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players add @s textbook_correct 1
+            execute if score @s tagCheck matches ${page.requiredAmount}.. if score @s textbook_q${index + 1} matches 0 run scoreboard players set @s textbook_q${index + 1} 1` : ''}
+            execute unless score @s tagCheck matches ${page.requiredAmount}.. run function ${incorrectFunctionName}`;
+
                 // Correct/incorrect function contents
                 let correctFunctionContent = `# Correct answer function
-tellraw @s {"text":"✅ Correct!","color":"green"}`;
-                
+            tellraw @s {"text":"✅ Correct!","color":"green"}`;
+
                 let incorrectFunctionContent = `# Incorrect answer function
-tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
-                
+            tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
+
                 // Add the check functions to our list
                 functionFiles.push({
                     name: checkTrueFunctionName,
                     content: checkTrueFunctionContent
                 });
-                
+
                 functionFiles.push({
                     name: checkFalseFunctionName,
                     content: checkFalseFunctionContent
                 });
-                
+
                 // Add the correct/incorrect functions (once) if they don't exist yet
                 if (!functionFiles.some(f => f.name === correctFunctionName)) {
                     functionFiles.push({
@@ -304,7 +388,7 @@ tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
                         content: correctFunctionContent
                     });
                 }
-                
+
                 if (!functionFiles.some(f => f.name === incorrectFunctionName)) {
                     functionFiles.push({
                         name: incorrectFunctionName,
@@ -312,35 +396,35 @@ tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
                     });
                 }
             });
-            
+
             // Display function files
             let functionFilesDiv = document.getElementById("functionFiles");
             functionFilesDiv.innerHTML = "";
-            
+
             functionFiles.forEach(file => {
                 let fileDiv = document.createElement("div");
                 fileDiv.className = "function-file";
-                
+
                 let fileName = document.createElement("div");
                 fileName.className = "function-title";
-                
+
                 // Split the name to get the namespace and path
                 let nameParts = file.name.split(':');
                 let fullPath = `${nameParts[0]}/functions/${nameParts[1]}.mcfunction`;
-                
+
                 fileName.innerHTML = `
                     <span>File: ${fullPath}</span>
                     <button class="download-btn" onclick="downloadFunction('${file.name}')">📥 Download</button>
                 `;
-                
+
                 let fileContent = document.createElement("pre");
                 fileContent.innerText = file.content;
-                
+
                 fileDiv.appendChild(fileName);
                 fileDiv.appendChild(fileContent);
                 functionFilesDiv.appendChild(fileDiv);
             });
-            
+
             // Show the download all button
             document.getElementById("downloadAllBtn").style.display = "block";
             document.getElementById("downloadAllBtn").onclick = downloadAllFunctions;
@@ -356,22 +440,22 @@ tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
             // Find the function in our array
             const func = functionFiles.find(f => f.name === functionName);
             if (!func) return;
-            
+
             // Split the name to get the namespace and path
             let nameParts = functionName.split(':');
             let fileName = `${nameParts[1]}.mcfunction`;
-            
+
             // Create a blob with the content
             const blob = new Blob([func.content], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
-            
+
             // Create a temporary link and click it
             const a = document.createElement('a');
             a.href = url;
             a.download = fileName;
             document.body.appendChild(a);
             a.click();
-            
+
             // Clean up
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
@@ -393,17 +477,17 @@ tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
         function createAndDownloadZip() {
             const zip = new JSZip();
             const namespace = document.getElementById("namespace").value || "archaeo";
-            
+
             // Create folders for each namespace
             functionFiles.forEach(file => {
                 let nameParts = file.name.split(':');
                 let namespaceName = nameParts[0];
                 let functionPath = nameParts[1];
-                
+
                 // Add file to the correct namespace folder
                 zip.folder(`${namespaceName}/functions`).file(`${functionPath}.mcfunction`, file.content);
             });
-            
+
             // Generate pack.mcmeta file
             const packMcmeta = {
                 pack: {
@@ -411,18 +495,18 @@ tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
                     description: "Archaeology Textbook Functions"
                 }
             };
-            
+
             zip.file("pack.mcmeta", JSON.stringify(packMcmeta, null, 2));
-            
+
             // Generate the ZIP file
-            zip.generateAsync({ type: "blob" }).then(function(content) {
+            zip.generateAsync({ type: "blob" }).then(function (content) {
                 // Create a download link
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(content);
                 a.download = `${namespace}_functions.zip`;
                 document.body.appendChild(a);
                 a.click();
-                
+
                 // Clean up
                 document.body.removeChild(a);
                 URL.revokeObjectURL(a.href);
@@ -432,4 +516,5 @@ tellraw @s {"text":"❌ Incorrect!","color":"red"}`;
     <!-- Add JSZip for ZIP file creation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </body>
+
 </html>

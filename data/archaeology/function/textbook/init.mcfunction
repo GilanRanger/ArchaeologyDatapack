@@ -5,7 +5,8 @@ give @p written_book[written_book_content={title:"Archaeology Textbook",author:"
 scoreboard objectives add tagCheck dummy
 scoreboard objectives add textbook_correct dummy "Correct Answers"
 scoreboard objectives setdisplay sidebar textbook_correct
+scoreboard players set @p textbook_correct 0
 
 # Initialize scoreboard objectives for each question
 scoreboard objectives add textbook_q1 dummy
-scoreboard players add @p textbook_q1 0
+scoreboard players set @p textbook_q1 0
