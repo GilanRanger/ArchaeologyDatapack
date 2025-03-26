@@ -35,6 +35,6 @@ tag @e[type=minecraft:interaction,tag=new_interaction] remove new_interaction
 tag @e[type=minecraft:interaction] add clickable
 
 # Remove item
-item replace entity @s weapon.mainhand with minecraft:air
+# item replace entity @s weapon.mainhand with minecraft:air
 
 tellraw @s {"text":"Artifact spawned!","color":"green"}
