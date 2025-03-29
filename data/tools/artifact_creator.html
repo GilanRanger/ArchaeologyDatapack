@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +11,18 @@
             margin: 20px;
             line-height: 1.6;
         }
+
         .container {
             max-width: 900px;
             margin: 0 auto;
         }
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             color: #333;
         }
+
         .instructions {
             background-color: #f8f8f8;
             border-left: 4px solid #4CAF50;
@@ -24,6 +30,7 @@
             margin-bottom: 20px;
             border-radius: 0 5px 5px 0;
         }
+
         .artifact-entry {
             border: 1px solid #ddd;
             padding: 15px;
@@ -32,6 +39,7 @@
             background-color: #f9f9f9;
             position: relative;
         }
+
         .delete-btn {
             position: absolute;
             top: 10px;
@@ -45,7 +53,11 @@
             cursor: pointer;
             font-weight: bold;
         }
-        input[type="text"], textarea, input[type="number"] {
+
+        input[type="text"],
+        textarea,
+        input[type="number"],
+        select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -53,10 +65,12 @@
             box-sizing: border-box;
             margin-bottom: 10px;
         }
+
         textarea {
             height: 80px;
             font-family: monospace;
         }
+
         button {
             padding: 8px 15px;
             background-color: #4CAF50;
@@ -66,12 +80,15 @@
             cursor: pointer;
             margin-right: 10px;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         .action-buttons {
             margin: 20px 0;
         }
+
         pre {
             background-color: #f4f4f4;
             padding: 15px;
@@ -79,6 +96,7 @@
             overflow-x: auto;
             white-space: pre-wrap;
         }
+
         .info-box {
             background-color: #e7f3fe;
             border-left: 4px solid #2196F3;
@@ -86,6 +104,7 @@
             margin-bottom: 20px;
             border-radius: 0 5px 5px 0;
         }
+
         .example {
             font-family: monospace;
             background-color: #f0f0f0;
@@ -93,6 +112,7 @@
             border-radius: 4px;
             margin: 10px 0;
         }
+
         .artifact-tag {
             display: inline-block;
             background-color: #4CAF50;
@@ -102,37 +122,45 @@
             font-size: 14px;
             margin-left: 10px;
         }
+
         .artifact-count {
             font-weight: bold;
             margin-right: 10px;
         }
+
         #functionOutput {
             display: none;
         }
+
         .transform-fields {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-top: 10px;
         }
+
         .transform-fields label {
             font-size: 14px;
             display: flex;
             align-items: center;
         }
+
         .transform-fields input {
             width: 100%;
         }
+
         .transform-container {
             background-color: #f5f5f5;
             padding: 10px;
             border-radius: 4px;
             margin-top: 10px;
         }
+
         .transform-title {
             margin-bottom: 10px;
             font-weight: bold;
         }
+
         .dice-btn {
             background-color: #6c757d;
             color: white;
@@ -143,9 +171,11 @@
             padding: 4px 8px;
             font-size: 12px;
         }
+
         .dice-btn:hover {
             background-color: #5a6268;
         }
+
         .rotation-display {
             font-family: monospace;
             background-color: #e9ecef;
@@ -154,57 +184,1346 @@
             margin-top: 5px;
             font-size: 14px;
         }
+
+        .toggle-cmd-btn {
+            background-color: #6c757d;
+            font-size: 12px;
+            padding: 4px 8px;
+            margin-left: 10px;
+        }
+
+        .command-container {
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .command-builder {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-label input {
+            margin-right: 5px;
+            width: auto;
+        }
+
+        .lore-entry {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .lore-entry button {
+            height: 35px;
+            margin: 0;
+        }
+
+        .add-lore-btn {
+            background-color: #2196F3;
+            margin-bottom: 15px;
+        }
+
+        .remove-lore-btn {
+            background-color: #f44336;
+            padding: 4px 8px;
+        }
+
+        .preview-text {
+            margin-top: 10px;
+            font-family: monospace;
+            padding: 8px;
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            overflow-wrap: break-word;
+        }
+
+        .section-title {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Divider */
+        .divider {
+            border-top: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        /* Item selection with search */
+        .item-select-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .item-search {
+            width: 40%;
+            position: relative;
+        }
+
+        .item-select {
+            width: 60%;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            color: #666;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+            color: #666;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .clear-search:hover {
+            color: #f44336;
+            background: none;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Archaeology Artifacts Generator</h1>
-        
+
         <div class="instructions">
             <h3>How to Use This Tool:</h3>
             <ol>
-                <li>First, create your custom Minecraft item using <a href="https://mcstacker.net/?cmd=give" target="_blank">MCStacker</a></li>
-                <li>Copy the generated command and paste it into the "Minecraft Item Command" field below</li>
                 <li>Add a name for your artifact (for reference purposes only)</li>
-                <li>The tool will assign a tag number automatically</li>
+                <li>Use the "Item Command Builder" to create your custom Minecraft item</li>
+                <li>Select an item type (use the search filter to find items quickly), customize its name and lore</li>
                 <li>Set scale and rotation values for your artifact (use the dice button for random rotation)</li>
                 <li>Add as many artifacts as needed</li>
                 <li>Click "Generate Function" to create the give_artifacts.mcfunction file</li>
             </ol>
         </div>
-        
+
         <div class="info-box">
             <h3>Example:</h3>
-            <p>Original command from MCStacker:</p>
-            <div class="example">/give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."']] 1</div>
-            
+            <p>Generated command example:</p>
+            <div class="example">/give @p
+                flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint
+                Arrowhead"}',lore=['"This is lore."','"This is lore also."']] 1</div>
+
             <p>Command with added tag, scale, and rotation (automatically done by this tool):</p>
-            <div class="example">give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint Arrowhead"}',lore=['"This is lore."','"This is lore also."'],custom_data={tag:1,scale:[0.5f,0.5f,0.5f],rotation:[0f,0f,0f,1f]}] 1</div>
-            <p><strong>Note:</strong> The leading slash (/) is automatically removed in the mcfunction file as required.</p>
+            <div class="example">give @p flint[custom_name='{"bold":true,"color":"dark_gray","italic":true,"text":"Flint
+                Arrowhead"}',lore=['"This is lore."','"This is lore
+                also."'],custom_data={tag:1,scale:[0.5f,0.5f,0.5f],rotation:[0f,0f,0f,1f]}] 1</div>
+            <p><strong>Note:</strong> The leading slash (/) is automatically removed in the mcfunction file as required.
+            </p>
         </div>
-        
+
         <h2>Artifact List</h2>
-        
+
         <div id="artifactList">
             <!-- Artifacts will appear here -->
         </div>
-        
+
         <div class="action-buttons">
             <button id="addArtifactBtn">Add New Artifact</button>
             <button id="generateBtn">Generate Function</button>
             <button id="downloadBtn">Download give_artifacts.mcfunction</button>
         </div>
-        
+
         <div id="functionOutput">
             <h3>Generated Function:</h3>
             <pre id="outputCode"></pre>
         </div>
     </div>
-    
+
     <script>
         // Initialize artifacts array
         let artifacts = [];
-        
+
+        // Minecraft items list (example items - you'll want to replace with a comprehensive list)
+        const minecraftItems = [
+            "stone",
+            "granite",
+            "polished_granite",
+            "diorite",
+            "polished_diorite",
+            "andesite",
+            "polished_andesite",
+            "deepslate",
+            "cobbled_deepslate",
+            "polished_deepslate",
+            "calcite",
+            "tuff",
+            "dripstone_block",
+            "grass_block",
+            "dirt",
+            "coarse_dirt",
+            "podzol",
+            "rooted_dirt",
+            "mud",
+            "crimson_nylium",
+            "warped_nylium",
+            "cobblestone",
+            "oak_planks",
+            "spruce_planks",
+            "birch_planks",
+            "jungle_planks",
+            "acacia_planks",
+            "dark_oak_planks",
+            "mangrove_planks",
+            "crimson_planks",
+            "warped_planks",
+            "oak_sapling",
+            "spruce_sapling",
+            "birch_sapling",
+            "jungle_sapling",
+            "acacia_sapling",
+            "dark_oak_sapling",
+            "mangrove_propagule",
+            "sand",
+            "red_sand",
+            "gravel",
+            "coal_ore",
+            "deepslate_coal_ore",
+            "iron_ore",
+            "deepslate_iron_ore",
+            "copper_ore",
+            "deepslate_copper_ore",
+            "gold_ore",
+            "deepslate_gold_ore",
+            "redstone_ore",
+            "deepslate_redstone_ore",
+            "emerald_ore",
+            "deepslate_emerald_ore",
+            "lapis_ore",
+            "deepslate_lapis_ore",
+            "diamond_ore",
+            "deepslate_diamond_ore",
+            "nether_gold_ore",
+            "nether_quartz_ore",
+            "ancient_debris",
+            "coal_block",
+            "raw_iron_block",
+            "raw_copper_block",
+            "raw_gold_block",
+            "amethyst_block",
+            "iron_block",
+            "copper_block",
+            "gold_block",
+            "diamond_block",
+            "netherite_block",
+            "exposed_copper",
+            "weathered_copper",
+            "oxidized_copper",
+            "cut_copper",
+            "exposed_cut_copper",
+            "weathered_cut_copper",
+            "oxidized_cut_copper",
+            "cut_copper_stairs",
+            "exposed_cut_copper_stairs",
+            "weathered_cut_copper_stairs",
+            "oxidized_cut_copper_stairs",
+            "cut_copper_slab",
+            "exposed_cut_copper_slab",
+            "weathered_cut_copper_slab",
+            "oxidized_cut_copper_slab",
+            "waxed_copper_block",
+            "waxed_exposed_copper",
+            "waxed_weathered_copper",
+            "waxed_oxidized_copper",
+            "waxed_cut_copper",
+            "waxed_exposed_cut_copper",
+            "waxed_weathered_cut_copper",
+            "waxed_oxidized_cut_copper",
+            "waxed_cut_copper_stairs",
+            "waxed_exposed_cut_copper_stairs",
+            "waxed_weathered_cut_copper_stairs",
+            "waxed_oxidized_cut_copper_stairs",
+            "waxed_cut_copper_slab",
+            "waxed_exposed_cut_copper_slab",
+            "waxed_weathered_cut_copper_slab",
+            "waxed_oxidized_cut_copper_slab",
+            "oak_log",
+            "spruce_log",
+            "birch_log",
+            "jungle_log",
+            "acacia_log",
+            "dark_oak_log",
+            "mangrove_log",
+            "mangrove_roots",
+            "muddy_mangrove_roots",
+            "crimson_stem",
+            "warped_stem",
+            "stripped_oak_log",
+            "stripped_spruce_log",
+            "stripped_birch_log",
+            "stripped_jungle_log",
+            "stripped_acacia_log",
+            "stripped_dark_oak_log",
+            "stripped_mangrove_log",
+            "stripped_crimson_stem",
+            "stripped_warped_stem",
+            "stripped_oak_wood",
+            "stripped_spruce_wood",
+            "stripped_birch_wood",
+            "stripped_jungle_wood",
+            "stripped_acacia_wood",
+            "stripped_dark_oak_wood",
+            "stripped_mangrove_wood",
+            "stripped_crimson_hyphae",
+            "stripped_warped_hyphae",
+            "oak_wood",
+            "spruce_wood",
+            "birch_wood",
+            "jungle_wood",
+            "acacia_wood",
+            "dark_oak_wood",
+            "mangrove_wood",
+            "crimson_hyphae",
+            "warped_hyphae",
+            "oak_leaves",
+            "spruce_leaves",
+            "birch_leaves",
+            "jungle_leaves",
+            "acacia_leaves",
+            "dark_oak_leaves",
+            "mangrove_leaves",
+            "azalea_leaves",
+            "flowering_azalea_leaves",
+            "sponge",
+            "wet_sponge",
+            "glass",
+            "tinted_glass",
+            "lapis_block",
+            "sandstone",
+            "chiseled_sandstone",
+            "cut_sandstone",
+            "cobweb",
+            "grass",
+            "fern",
+            "azalea",
+            "flowering_azalea",
+            "dead_bush",
+            "seagrass",
+            "sea_pickle",
+            "white_wool",
+            "orange_wool",
+            "magenta_wool",
+            "light_blue_wool",
+            "yellow_wool",
+            "lime_wool",
+            "pink_wool",
+            "gray_wool",
+            "light_gray_wool",
+            "cyan_wool",
+            "purple_wool",
+            "blue_wool",
+            "brown_wool",
+            "green_wool",
+            "red_wool",
+            "black_wool",
+            "dandelion",
+            "poppy",
+            "blue_orchid",
+            "allium",
+            "azure_bluet",
+            "red_tulip",
+            "orange_tulip",
+            "white_tulip",
+            "pink_tulip",
+            "oxeye_daisy",
+            "cornflower",
+            "lily_of_the_valley",
+            "wither_rose",
+            "spore_blossom",
+            "brown_mushroom",
+            "red_mushroom",
+            "crimson_fungus",
+            "warped_fungus",
+            "crimson_roots",
+            "warped_roots",
+            "nether_sprouts",
+            "weeping_vines",
+            "twisting_vines",
+            "sugar_cane",
+            "kelp",
+            "moss_carpet",
+            "moss_block",
+            "hanging_roots",
+            "big_dripleaf",
+            "small_dripleaf",
+            "bamboo",
+            "oak_slab",
+            "spruce_slab",
+            "birch_slab",
+            "jungle_slab",
+            "acacia_slab",
+            "dark_oak_slab",
+            "mangrove_slab",
+            "crimson_slab",
+            "warped_slab",
+            "stone_slab",
+            "smooth_stone_slab",
+            "sandstone_slab",
+            "cut_sandstone_slab",
+            "cobblestone_slab",
+            "brick_slab",
+            "stone_brick_slab",
+            "mud_brick_slab",
+            "nether_brick_slab",
+            "quartz_slab",
+            "red_sandstone_slab",
+            "cut_red_sandstone_slab",
+            "purpur_slab",
+            "prismarine_slab",
+            "prismarine_brick_slab",
+            "dark_prismarine_slab",
+            "smooth_quartz",
+            "smooth_red_sandstone",
+            "smooth_sandstone",
+            "smooth_stone",
+            "bricks",
+            "bookshelf",
+            "mossy_cobblestone",
+            "obsidian",
+            "torch",
+            "end_rod",
+            "chorus_flower",
+            "purpur_block",
+            "purpur_pillar",
+            "purpur_stairs",
+            "chest",
+            "crafting_table",
+            "furnace",
+            "ladder",
+            "cobblestone_stairs",
+            "snow",
+            "ice",
+            "snow_block",
+            "cactus",
+            "clay",
+            "jukebox",
+            "oak_fence",
+            "spruce_fence",
+            "birch_fence",
+            "jungle_fence",
+            "acacia_fence",
+            "dark_oak_fence",
+            "mangrove_fence",
+            "crimson_fence",
+            "warped_fence",
+            "pumpkin",
+            "carved_pumpkin",
+            "jack_o_lantern",
+            "netherrack",
+            "soul_sand",
+            "soul_soil",
+            "basalt",
+            "polished_basalt",
+            "smooth_basalt",
+            "soul_torch",
+            "glowstone",
+            "stone_bricks",
+            "mossy_stone_bricks",
+            "cracked_stone_bricks",
+            "chiseled_stone_bricks",
+            "packed_mud",
+            "mud_bricks",
+            "deepslate_bricks",
+            "cracked_deepslate_bricks",
+            "deepslate_tiles",
+            "cracked_deepslate_tiles",
+            "chiseled_deepslate",
+            "brown_mushroom_block",
+            "red_mushroom_block",
+            "mushroom_stem",
+            "iron_bars",
+            "chain",
+            "glass_pane",
+            "melon",
+            "vine",
+            "glow_lichen",
+            "brick_stairs",
+            "stone_brick_stairs",
+            "mud_brick_stairs",
+            "mycelium",
+            "lily_pad",
+            "nether_bricks",
+            "cracked_nether_bricks",
+            "chiseled_nether_bricks",
+            "nether_brick_fence",
+            "nether_brick_stairs",
+            "sculk",
+            "sculk_vein",
+            "sculk_catalyst",
+            "sculk_shrieker",
+            "enchanting_table",
+            "end_stone",
+            "end_stone_bricks",
+            "dragon_egg",
+            "sandstone_stairs",
+            "ender_chest",
+            "emerald_block",
+            "oak_stairs",
+            "spruce_stairs",
+            "birch_stairs",
+            "jungle_stairs",
+            "acacia_stairs",
+            "dark_oak_stairs",
+            "mangrove_stairs",
+            "crimson_stairs",
+            "warped_stairs",
+            "beacon",
+            "cobblestone_wall",
+            "mossy_cobblestone_wall",
+            "brick_wall",
+            "prismarine_wall",
+            "red_sandstone_wall",
+            "mossy_stone_brick_wall",
+            "granite_wall",
+            "stone_brick_wall",
+            "mud_brick_wall",
+            "nether_brick_wall",
+            "andesite_wall",
+            "red_nether_brick_wall",
+            "sandstone_wall",
+            "end_stone_brick_wall",
+            "diorite_wall",
+            "blackstone_wall",
+            "polished_blackstone_wall",
+            "polished_blackstone_brick_wall",
+            "cobbled_deepslate_wall",
+            "polished_deepslate_wall",
+            "deepslate_brick_wall",
+            "deepslate_tile_wall",
+            "anvil",
+            "chipped_anvil",
+            "damaged_anvil",
+            "chiseled_quartz_block",
+            "quartz_block",
+            "quartz_bricks",
+            "quartz_pillar",
+            "quartz_stairs",
+            "white_terracotta",
+            "orange_terracotta",
+            "magenta_terracotta",
+            "light_blue_terracotta",
+            "yellow_terracotta",
+            "lime_terracotta",
+            "pink_terracotta",
+            "gray_terracotta",
+            "light_gray_terracotta",
+            "cyan_terracotta",
+            "purple_terracotta",
+            "blue_terracotta",
+            "brown_terracotta",
+            "green_terracotta",
+            "red_terracotta",
+            "black_terracotta",
+            "hay_block",
+            "white_carpet",
+            "orange_carpet",
+            "magenta_carpet",
+            "light_blue_carpet",
+            "yellow_carpet",
+            "lime_carpet",
+            "pink_carpet",
+            "gray_carpet",
+            "light_gray_carpet",
+            "cyan_carpet",
+            "purple_carpet",
+            "blue_carpet",
+            "brown_carpet",
+            "green_carpet",
+            "red_carpet",
+            "black_carpet",
+            "terracotta",
+            "packed_ice",
+            "sunflower",
+            "lilac",
+            "rose_bush",
+            "peony",
+            "tall_grass",
+            "large_fern",
+            "white_stained_glass",
+            "orange_stained_glass",
+            "magenta_stained_glass",
+            "light_blue_stained_glass",
+            "yellow_stained_glass",
+            "lime_stained_glass",
+            "pink_stained_glass",
+            "gray_stained_glass",
+            "light_gray_stained_glass",
+            "cyan_stained_glass",
+            "purple_stained_glass",
+            "blue_stained_glass",
+            "brown_stained_glass",
+            "green_stained_glass",
+            "red_stained_glass",
+            "black_stained_glass",
+            "white_stained_glass_pane",
+            "orange_stained_glass_pane",
+            "magenta_stained_glass_pane",
+            "light_blue_stained_glass_pane",
+            "yellow_stained_glass_pane",
+            "lime_stained_glass_pane",
+            "pink_stained_glass_pane",
+            "gray_stained_glass_pane",
+            "light_gray_stained_glass_pane",
+            "cyan_stained_glass_pane",
+            "purple_stained_glass_pane",
+            "blue_stained_glass_pane",
+            "brown_stained_glass_pane",
+            "green_stained_glass_pane",
+            "red_stained_glass_pane",
+            "black_stained_glass_pane",
+            "prismarine",
+            "prismarine_bricks",
+            "dark_prismarine",
+            "prismarine_stairs",
+            "prismarine_brick_stairs",
+            "dark_prismarine_stairs",
+            "sea_lantern",
+            "red_sandstone",
+            "chiseled_red_sandstone",
+            "cut_red_sandstone",
+            "red_sandstone_stairs",
+            "magma_block",
+            "nether_wart_block",
+            "warped_wart_block",
+            "red_nether_bricks",
+            "bone_block",
+            "shulker_box",
+            "white_shulker_box",
+            "orange_shulker_box",
+            "magenta_shulker_box",
+            "light_blue_shulker_box",
+            "yellow_shulker_box",
+            "lime_shulker_box",
+            "pink_shulker_box",
+            "gray_shulker_box",
+            "light_gray_shulker_box",
+            "cyan_shulker_box",
+            "purple_shulker_box",
+            "blue_shulker_box",
+            "brown_shulker_box",
+            "green_shulker_box",
+            "red_shulker_box",
+            "black_shulker_box",
+            "white_glazed_terracotta",
+            "orange_glazed_terracotta",
+            "magenta_glazed_terracotta",
+            "light_blue_glazed_terracotta",
+            "yellow_glazed_terracotta",
+            "lime_glazed_terracotta",
+            "pink_glazed_terracotta",
+            "gray_glazed_terracotta",
+            "light_gray_glazed_terracotta",
+            "cyan_glazed_terracotta",
+            "purple_glazed_terracotta",
+            "blue_glazed_terracotta",
+            "brown_glazed_terracotta",
+            "green_glazed_terracotta",
+            "red_glazed_terracotta",
+            "black_glazed_terracotta",
+            "white_concrete",
+            "orange_concrete",
+            "magenta_concrete",
+            "light_blue_concrete",
+            "yellow_concrete",
+            "lime_concrete",
+            "pink_concrete",
+            "gray_concrete",
+            "light_gray_concrete",
+            "cyan_concrete",
+            "purple_concrete",
+            "blue_concrete",
+            "brown_concrete",
+            "green_concrete",
+            "red_concrete",
+            "black_concrete",
+            "white_concrete_powder",
+            "orange_concrete_powder",
+            "magenta_concrete_powder",
+            "light_blue_concrete_powder",
+            "yellow_concrete_powder",
+            "lime_concrete_powder",
+            "pink_concrete_powder",
+            "gray_concrete_powder",
+            "light_gray_concrete_powder",
+            "cyan_concrete_powder",
+            "purple_concrete_powder",
+            "blue_concrete_powder",
+            "brown_concrete_powder",
+            "green_concrete_powder",
+            "red_concrete_powder",
+            "black_concrete_powder",
+            "turtle_egg",
+            "dead_tube_coral_block",
+            "dead_brain_coral_block",
+            "dead_bubble_coral_block",
+            "dead_fire_coral_block",
+            "dead_horn_coral_block",
+            "tube_coral_block",
+            "brain_coral_block",
+            "bubble_coral_block",
+            "fire_coral_block",
+            "horn_coral_block",
+            "tube_coral",
+            "brain_coral",
+            "bubble_coral",
+            "fire_coral",
+            "horn_coral",
+            "dead_brain_coral",
+            "dead_bubble_coral",
+            "dead_fire_coral",
+            "dead_horn_coral",
+            "dead_tube_coral",
+            "tube_coral_fan",
+            "brain_coral_fan",
+            "bubble_coral_fan",
+            "fire_coral_fan",
+            "horn_coral_fan",
+            "dead_tube_coral_fan",
+            "dead_brain_coral_fan",
+            "dead_bubble_coral_fan",
+            "dead_fire_coral_fan",
+            "dead_horn_coral_fan",
+            "blue_ice",
+            "conduit",
+            "polished_granite_stairs",
+            "smooth_red_sandstone_stairs",
+            "mossy_stone_brick_stairs",
+            "polished_diorite_stairs",
+            "mossy_cobblestone_stairs",
+            "end_stone_brick_stairs",
+            "stone_stairs",
+            "smooth_sandstone_stairs",
+            "smooth_quartz_stairs",
+            "granite_stairs",
+            "andesite_stairs",
+            "red_nether_brick_stairs",
+            "polished_andesite_stairs",
+            "diorite_stairs",
+            "cobbled_deepslate_stairs",
+            "polished_deepslate_stairs",
+            "deepslate_brick_stairs",
+            "deepslate_tile_stairs",
+            "polished_granite_slab",
+            "smooth_red_sandstone_slab",
+            "mossy_stone_brick_slab",
+            "polished_diorite_slab",
+            "mossy_cobblestone_slab",
+            "end_stone_brick_slab",
+            "smooth_sandstone_slab",
+            "smooth_quartz_slab",
+            "granite_slab",
+            "andesite_slab",
+            "red_nether_brick_slab",
+            "polished_andesite_slab",
+            "diorite_slab",
+            "cobbled_deepslate_slab",
+            "polished_deepslate_slab",
+            "deepslate_brick_slab",
+            "deepslate_tile_slab",
+            "scaffolding",
+            "redstone",
+            "redstone_torch",
+            "redstone_block",
+            "repeater",
+            "comparator",
+            "piston",
+            "sticky_piston",
+            "slime_block",
+            "honey_block",
+            "observer",
+            "hopper",
+            "dispenser",
+            "dropper",
+            "lectern",
+            "target",
+            "lever",
+            "lightning_rod",
+            "daylight_detector",
+            "sculk_sensor",
+            "tripwire_hook",
+            "trapped_chest",
+            "tnt",
+            "redstone_lamp",
+            "note_block",
+            "stone_button",
+            "polished_blackstone_button",
+            "oak_button",
+            "spruce_button",
+            "birch_button",
+            "jungle_button",
+            "acacia_button",
+            "dark_oak_button",
+            "mangrove_button",
+            "crimson_button",
+            "warped_button",
+            "stone_pressure_plate",
+            "polished_blackstone_pressure_plate",
+            "light_weighted_pressure_plate",
+            "heavy_weighted_pressure_plate",
+            "oak_pressure_plate",
+            "spruce_pressure_plate",
+            "birch_pressure_plate",
+            "jungle_pressure_plate",
+            "acacia_pressure_plate",
+            "dark_oak_pressure_plate",
+            "mangrove_pressure_plate",
+            "crimson_pressure_plate",
+            "warped_pressure_plate",
+            "iron_door",
+            "oak_door",
+            "spruce_door",
+            "birch_door",
+            "jungle_door",
+            "acacia_door",
+            "dark_oak_door",
+            "mangrove_door",
+            "crimson_door",
+            "warped_door",
+            "iron_trapdoor",
+            "oak_trapdoor",
+            "spruce_trapdoor",
+            "birch_trapdoor",
+            "jungle_trapdoor",
+            "acacia_trapdoor",
+            "dark_oak_trapdoor",
+            "mangrove_trapdoor",
+            "crimson_trapdoor",
+            "warped_trapdoor",
+            "oak_fence_gate",
+            "spruce_fence_gate",
+            "birch_fence_gate",
+            "jungle_fence_gate",
+            "acacia_fence_gate",
+            "dark_oak_fence_gate",
+            "mangrove_fence_gate",
+            "crimson_fence_gate",
+            "warped_fence_gate",
+            "powered_rail",
+            "detector_rail",
+            "rail",
+            "activator_rail",
+            "saddle",
+            "minecart",
+            "chest_minecart",
+            "furnace_minecart",
+            "tnt_minecart",
+            "hopper_minecart",
+            "carrot_on_a_stick",
+            "warped_fungus_on_a_stick",
+            "elytra",
+            "oak_boat",
+            "oak_chest_boat",
+            "spruce_boat",
+            "spruce_chest_boat",
+            "birch_boat",
+            "birch_chest_boat",
+            "jungle_boat",
+            "jungle_chest_boat",
+            "acacia_boat",
+            "acacia_chest_boat",
+            "dark_oak_boat",
+            "dark_oak_chest_boat",
+            "mangrove_boat",
+            "mangrove_chest_boat",
+            "turtle_helmet",
+            "scute",
+            "flint_and_steel",
+            "apple",
+            "bow",
+            "arrow",
+            "coal",
+            "charcoal",
+            "diamond",
+            "emerald",
+            "lapis_lazuli",
+            "quartz",
+            "amethyst_shard",
+            "raw_iron",
+            "iron_ingot",
+            "raw_copper",
+            "copper_ingot",
+            "raw_gold",
+            "gold_ingot",
+            "netherite_ingot",
+            "netherite_scrap",
+            "wooden_sword",
+            "wooden_shovel",
+            "wooden_pickaxe",
+            "wooden_axe",
+            "wooden_hoe",
+            "stone_sword",
+            "stone_shovel",
+            "stone_pickaxe",
+            "stone_axe",
+            "stone_hoe",
+            "golden_sword",
+            "golden_shovel",
+            "golden_pickaxe",
+            "golden_axe",
+            "golden_hoe",
+            "iron_sword",
+            "iron_shovel",
+            "iron_pickaxe",
+            "iron_axe",
+            "iron_hoe",
+            "diamond_sword",
+            "diamond_shovel",
+            "diamond_pickaxe",
+            "diamond_axe",
+            "diamond_hoe",
+            "netherite_sword",
+            "netherite_shovel",
+            "netherite_pickaxe",
+            "netherite_axe",
+            "netherite_hoe",
+            "stick",
+            "bowl",
+            "mushroom_stew",
+            "string",
+            "feather",
+            "gunpowder",
+            "wheat_seeds",
+            "wheat",
+            "bread",
+            "leather_helmet",
+            "leather_chestplate",
+            "leather_leggings",
+            "leather_boots",
+            "chainmail_helmet",
+            "chainmail_chestplate",
+            "chainmail_leggings",
+            "chainmail_boots",
+            "iron_helmet",
+            "iron_chestplate",
+            "iron_leggings",
+            "iron_boots",
+            "diamond_helmet",
+            "diamond_chestplate",
+            "diamond_leggings",
+            "diamond_boots",
+            "golden_helmet",
+            "golden_chestplate",
+            "golden_leggings",
+            "golden_boots",
+            "netherite_helmet",
+            "netherite_chestplate",
+            "netherite_leggings",
+            "netherite_boots",
+            "flint",
+            "porkchop",
+            "cooked_porkchop",
+            "painting",
+            "golden_apple",
+            "enchanted_golden_apple",
+            "oak_sign",
+            "spruce_sign",
+            "birch_sign",
+            "jungle_sign",
+            "acacia_sign",
+            "dark_oak_sign",
+            "mangrove_sign",
+            "crimson_sign",
+            "warped_sign",
+            "bucket",
+            "water_bucket",
+            "lava_bucket",
+            "powder_snow_bucket",
+            "snowball",
+            "leather",
+            "milk_bucket",
+            "pufferfish_bucket",
+            "salmon_bucket",
+            "cod_bucket",
+            "tropical_fish_bucket",
+            "axolotl_bucket",
+            "tadpole_bucket",
+            "brick",
+            "clay_ball",
+            "dried_kelp_block",
+            "paper",
+            "book",
+            "slime_ball",
+            "egg",
+            "compass",
+            "recovery_compass",
+            "fishing_rod",
+            "clock",
+            "spyglass",
+            "glowstone_dust",
+            "cod",
+            "salmon",
+            "tropical_fish",
+            "pufferfish",
+            "cooked_cod",
+            "cooked_salmon",
+            "ink_sac",
+            "glow_ink_sac",
+            "cocoa_beans",
+            "white_dye",
+            "orange_dye",
+            "magenta_dye",
+            "light_blue_dye",
+            "yellow_dye",
+            "lime_dye",
+            "pink_dye",
+            "gray_dye",
+            "light_gray_dye",
+            "cyan_dye",
+            "purple_dye",
+            "blue_dye",
+            "brown_dye",
+            "green_dye",
+            "red_dye",
+            "black_dye",
+            "bone_meal",
+            "bone",
+            "sugar",
+            "cake",
+            "white_bed",
+            "orange_bed",
+            "magenta_bed",
+            "light_blue_bed",
+            "yellow_bed",
+            "lime_bed",
+            "pink_bed",
+            "gray_bed",
+            "light_gray_bed",
+            "cyan_bed",
+            "purple_bed",
+            "blue_bed",
+            "brown_bed",
+            "green_bed",
+            "red_bed",
+            "black_bed",
+            "cookie",
+            "filled_map",
+            "shears",
+            "melon_slice",
+            "dried_kelp",
+            "pumpkin_seeds",
+            "melon_seeds",
+            "beef",
+            "cooked_beef",
+            "chicken",
+            "cooked_chicken",
+            "rotten_flesh",
+            "ender_pearl",
+            "blaze_rod",
+            "ghast_tear",
+            "gold_nugget",
+            "nether_wart",
+            "potion",
+            "glass_bottle",
+            "spider_eye",
+            "fermented_spider_eye",
+            "blaze_powder",
+            "magma_cream",
+            "brewing_stand",
+            "cauldron",
+            "ender_eye",
+            "glistering_melon_slice",
+            "experience_bottle",
+            "fire_charge",
+            "writable_book",
+            "written_book",
+            "item_frame",
+            "glow_item_frame",
+            "flower_pot",
+            "carrot",
+            "potato",
+            "baked_potato",
+            "poisonous_potato",
+            "map",
+            "golden_carrot",
+            "skeleton_skull",
+            "wither_skeleton_skull",
+            "zombie_head",
+            "creeper_head",
+            "dragon_head",
+            "nether_star",
+            "pumpkin_pie",
+            "firework_rocket",
+            "firework_star",
+            "enchanted_book",
+            "nether_brick",
+            "prismarine_shard",
+            "prismarine_crystals",
+            "rabbit",
+            "cooked_rabbit",
+            "rabbit_stew",
+            "rabbit_foot",
+            "rabbit_hide",
+            "armor_stand",
+            "iron_horse_armor",
+            "golden_horse_armor",
+            "diamond_horse_armor",
+            "leather_horse_armor",
+            "lead",
+            "name_tag",
+            "mutton",
+            "cooked_mutton",
+            "white_banner",
+            "orange_banner",
+            "magenta_banner",
+            "light_blue_banner",
+            "yellow_banner",
+            "lime_banner",
+            "pink_banner",
+            "gray_banner",
+            "light_gray_banner",
+            "cyan_banner",
+            "purple_banner",
+            "blue_banner",
+            "brown_banner",
+            "green_banner",
+            "red_banner",
+            "black_banner",
+            "end_crystal",
+            "chorus_fruit",
+            "popped_chorus_fruit",
+            "beetroot",
+            "beetroot_seeds",
+            "beetroot_soup",
+            "dragon_breath",
+            "splash_potion",
+            "spectral_arrow",
+            "tipped_arrow",
+            "lingering_potion",
+            "shield",
+            "totem_of_undying",
+            "shulker_shell",
+            "iron_nugget",
+            "music_disc_13",
+            "music_disc_cat",
+            "music_disc_blocks",
+            "music_disc_chirp",
+            "music_disc_far",
+            "music_disc_mall",
+            "music_disc_mellohi",
+            "music_disc_stal",
+            "music_disc_strad",
+            "music_disc_ward",
+            "music_disc_11",
+            "music_disc_wait",
+            "music_disc_otherside",
+            "music_disc_pigstep",
+            "trident",
+            "phantom_membrane",
+            "nautilus_shell",
+            "heart_of_the_sea",
+            "crossbow",
+            "suspicious_stew",
+            "loom",
+            "flower_banner_pattern",
+            "creeper_banner_pattern",
+            "skull_banner_pattern",
+            "mojang_banner_pattern",
+            "globe_banner_pattern",
+            "piglin_banner_pattern",
+            "composter",
+            "barrel",
+            "smoker",
+            "blast_furnace",
+            "cartography_table",
+            "fletching_table",
+            "grindstone",
+            "smithing_table",
+            "stonecutter",
+            "bell",
+            "lantern",
+            "soul_lantern",
+            "sweet_berries",
+            "glow_berries",
+            "campfire",
+            "soul_campfire",
+            "shroomlight",
+            "honeycomb",
+            "bee_nest",
+            "beehive",
+            "honey_bottle",
+            "honeycomb_block",
+            "lodestone",
+            "crying_obsidian",
+            "blackstone",
+            "blackstone_slab",
+            "blackstone_stairs",
+            "gilded_blackstone",
+            "polished_blackstone",
+            "polished_blackstone_slab",
+            "polished_blackstone_stairs",
+            "chiseled_polished_blackstone",
+            "polished_blackstone_bricks",
+            "polished_blackstone_brick_slab",
+            "polished_blackstone_brick_stairs",
+            "cracked_polished_blackstone_bricks",
+            "respawn_anchor",
+            "candle",
+            "white_candle",
+            "orange_candle",
+            "magenta_candle",
+            "light_blue_candle",
+            "yellow_candle",
+            "lime_candle",
+            "pink_candle",
+            "gray_candle",
+            "light_gray_candle",
+            "cyan_candle",
+            "purple_candle",
+            "blue_candle",
+            "brown_candle",
+            "green_candle",
+            "red_candle",
+            "black_candle",
+            "small_amethyst_bud",
+            "medium_amethyst_bud",
+            "large_amethyst_bud",
+            "amethyst_cluster",
+            "pointed_dripstone",
+            "ochre_froglight",
+            "verdant_froglight",
+            "pearlescent_froglight",
+            "echo_shard",
+            "bedrock",
+            "budding_amethyst",
+            "petrified_oak_slab",
+            "chorus_plant",
+            "spawner",
+            "farmland",
+            "infested_stone",
+            "infested_cobblestone",
+            "infested_stone_bricks",
+            "infested_mossy_stone_bricks",
+            "infested_cracked_stone_bricks",
+            "infested_chiseled_stone_bricks",
+            "infested_deepslate",
+            "reinforced_deepslate",
+            "end_portal_frame",
+            "command_block",
+            "barrier",
+            "light",
+            "dirt_path",
+            "repeating_command_block",
+            "chain_command_block",
+            "structure_void",
+            "structure_block",
+            "jigsaw",
+            "bundle",
+            "allay_spawn_egg",
+            "axolotl_spawn_egg",
+            "bat_spawn_egg",
+            "bee_spawn_egg",
+            "blaze_spawn_egg",
+            "cat_spawn_egg",
+            "cave_spider_spawn_egg",
+            "chicken_spawn_egg",
+            "cod_spawn_egg",
+            "cow_spawn_egg",
+            "creeper_spawn_egg",
+            "dolphin_spawn_egg",
+            "donkey_spawn_egg",
+            "drowned_spawn_egg",
+            "elder_guardian_spawn_egg",
+            "enderman_spawn_egg",
+            "endermite_spawn_egg",
+            "evoker_spawn_egg",
+            "fox_spawn_egg",
+            "frog_spawn_egg",
+            "ghast_spawn_egg",
+            "glow_squid_spawn_egg",
+            "goat_spawn_egg",
+            "guardian_spawn_egg",
+            "hoglin_spawn_egg",
+            "horse_spawn_egg",
+            "husk_spawn_egg",
+            "llama_spawn_egg",
+            "magma_cube_spawn_egg",
+            "mooshroom_spawn_egg",
+            "mule_spawn_egg",
+            "ocelot_spawn_egg",
+            "panda_spawn_egg",
+            "parrot_spawn_egg",
+            "phantom_spawn_egg",
+            "pig_spawn_egg",
+            "piglin_spawn_egg",
+            "piglin_brute_spawn_egg",
+            "pillager_spawn_egg",
+            "polar_bear_spawn_egg",
+            "pufferfish_spawn_egg",
+            "rabbit_spawn_egg",
+            "ravager_spawn_egg",
+            "salmon_spawn_egg",
+            "sheep_spawn_egg",
+            "shulker_spawn_egg",
+            "silverfish_spawn_egg",
+            "skeleton_spawn_egg",
+            "skeleton_horse_spawn_egg",
+            "slime_spawn_egg",
+            "spider_spawn_egg",
+            "squid_spawn_egg",
+            "stray_spawn_egg",
+            "strider_spawn_egg",
+            "tadpole_spawn_egg",
+            "trader_llama_spawn_egg",
+            "tropical_fish_spawn_egg",
+            "turtle_spawn_egg",
+            "vex_spawn_egg",
+            "villager_spawn_egg",
+            "vindicator_spawn_egg",
+            "wandering_trader_spawn_egg",
+            "warden_spawn_egg",
+            "witch_spawn_egg",
+            "wither_skeleton_spawn_egg",
+            "wolf_spawn_egg",
+            "zoglin_spawn_egg",
+            "zombie_spawn_egg",
+            "zombie_horse_spawn_egg",
+            "zombie_villager_spawn_egg",
+            "zombified_piglin_spawn_egg",
+            "player_head",
+            "command_block_minecart",
+            "knowledge_book",
+            "debug_stick",
+            "frogspawn"
+        ];
+
+        // Minecraft colors
+        const minecraftColors = [
+            "black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray",
+            "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white"
+        ];
+
         // DOM elements
         const artifactList = document.getElementById('artifactList');
         const addArtifactBtn = document.getElementById('addArtifactBtn');
@@ -212,24 +1531,24 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const outputCode = document.getElementById('outputCode');
         const functionOutput = document.getElementById('functionOutput');
-        
+
         // Add event listeners
         addArtifactBtn.addEventListener('click', addArtifact);
         generateBtn.addEventListener('click', generateFunction);
         downloadBtn.addEventListener('click', downloadFunction);
-        
+
         // Function to convert degrees to radians
         function degToRad(degrees) {
             return degrees * (Math.PI / 180);
         }
-        
+
         // Function to convert Euler angles to quaternion
         function eulerToQuaternion(x, y, z) {
             // Convert to radians
             const xRad = degToRad(x);
             const yRad = degToRad(y);
             const zRad = degToRad(z);
-            
+
             // Calculate quaternion components
             const cy = Math.cos(zRad * 0.5);
             const sy = Math.sin(zRad * 0.5);
@@ -237,12 +1556,12 @@
             const sp = Math.sin(yRad * 0.5);
             const cr = Math.cos(xRad * 0.5);
             const sr = Math.sin(xRad * 0.5);
-            
+
             const qx = sr * cp * cy - cr * sp * sy;
             const qy = cr * sp * cy + sr * cp * sy;
             const qz = cr * cp * sy - sr * sp * cy;
             const qw = cr * cp * cy + sr * sp * sy;
-            
+
             // Return formatted quaternion
             return [
                 qx.toFixed(3),
@@ -251,28 +1570,315 @@
                 qw.toFixed(3)
             ];
         }
-        
+
         // Generate a random quaternion
         function randomRotation() {
             // Random Euler angles
             const x = Math.floor(Math.random() * 360);
             const y = Math.floor(Math.random() * 360);
             const z = Math.floor(Math.random() * 360);
-            
+
             return {
                 euler: [x, y, z],
                 quaternion: eulerToQuaternion(x, y, z)
             };
         }
-        
+
+        // Toggle command visibility
+        function toggleCommand(index) {
+            const cmdContainer = document.getElementById(`command-container-${index}`);
+            const toggleBtn = document.getElementById(`toggle-cmd-btn-${index}`);
+
+            if (cmdContainer.style.display === 'none' || cmdContainer.style.display === '') {
+                cmdContainer.style.display = 'block';
+                toggleBtn.textContent = 'Hide Command Builder';
+            } else {
+                cmdContainer.style.display = 'none';
+                toggleBtn.textContent = 'Show Command Builder';
+            }
+        }
+
+        // Generate command from item builder
+        function generateItemCommand(index) {
+            const artifact = artifacts[index];
+
+            // Base command
+            let command = `/give @p stick[item_model=\"${artifact.itemType}\",`;
+
+            // Add custom name if set
+            if (artifact.customName) {
+                const nameJson = {
+                    text: artifact.customName,
+                    color: artifact.nameColor || "white",
+                    bold: artifact.nameBold || false,
+                    italic: artifact.nameItalic || false,
+                    underlined: artifact.nameUnderlined || false
+                };
+
+                command += `custom_name='${JSON.stringify(nameJson)}'`;
+            }
+
+            // Add lore if any
+            if (artifact.lore && artifact.lore.length > 0) {
+                if (!artifact.customName) {
+                    command = command.slice(0, -1); // Remove the opening bracket if it's the only one
+                } else {
+                    command += ',';
+                }
+
+                const loreArray = artifact.lore.map(loreItem => {
+                    const loreJson = {
+                        text: loreItem.text,
+                        color: loreItem.color || "gray",
+                        bold: loreItem.bold || false,
+                        italic: loreItem.italic || false,
+                        underlined: loreItem.underlined || false
+                    };
+                    return `'${JSON.stringify(loreJson)}'`;
+                });
+
+                command += `lore=[${loreArray.join(',')}]`;
+            }
+
+            // Close brackets and add quantity
+            if (command.includes('[')) {
+                command += `] 1`;
+            } else {
+                command += ` 1`;
+            }
+
+            return command;
+        }
+
+        // Update command in textarea
+        function updateItemCommand(index) {
+            const command = generateItemCommand(index);
+            artifacts[index].command = command;
+
+            const cmdTextarea = document.getElementById(`command-textarea-${index}`);
+            if (cmdTextarea) {
+                cmdTextarea.value = command;
+            }
+        }
+
+        // Add a lore entry
+        function addLoreEntry(index) {
+            if (!artifacts[index].lore) {
+                artifacts[index].lore = [];
+            }
+
+            artifacts[index].lore.push({
+                text: "Lore text",
+                color: "gray",
+                bold: false,
+                italic: false,
+                underlined: false
+            });
+
+            renderCommandBuilder(index);
+            updateItemCommand(index);
+        }
+
+        // Remove a lore entry
+        function removeLoreEntry(artifactIndex, loreIndex) {
+            artifacts[artifactIndex].lore.splice(loreIndex, 1);
+            renderCommandBuilder(artifactIndex);
+            updateItemCommand(artifactIndex);
+        }
+
+        // Update lore text
+        function updateLoreText(artifactIndex, loreIndex, value) {
+            artifacts[artifactIndex].lore[loreIndex].text = value;
+            updateItemCommand(artifactIndex);
+        }
+
+        // Update lore properties
+        function updateLoreProp(artifactIndex, loreIndex, prop, value) {
+            artifacts[artifactIndex].lore[loreIndex][prop] = value;
+            updateItemCommand(artifactIndex);
+        }
+
+        // Filter items based on search term
+        function filterItems(index, searchTerm) {
+            const searchInput = document.getElementById(`item-search-${index}`);
+            const itemSelect = document.getElementById(`item-type-${index}`);
+
+            if (!searchTerm) {
+                // Clear the search
+                renderItems(index, minecraftItems);
+                return;
+            }
+
+            const filteredItems = minecraftItems.filter(item =>
+                item.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            renderItems(index, filteredItems);
+        }
+
+        // Clear search input
+        function clearSearch(index) {
+            const searchInput = document.getElementById(`item-search-${index}`);
+            searchInput.value = '';
+            filterItems(index, '');
+        }
+
+        // Render the filtered items to the select dropdown
+        function renderItems(index, items) {
+            const itemSelect = document.getElementById(`item-type-${index}`);
+            const currentValue = artifacts[index].itemType;
+
+            // Clear existing options
+            itemSelect.innerHTML = `<option value="" disabled ${!currentValue ? 'selected' : ''}>Select an item</option>`;
+
+            // Add filtered items
+            items.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item;
+                option.textContent = item;
+                if (item === currentValue) {
+                    option.selected = true;
+                }
+                itemSelect.appendChild(option);
+            });
+        }
+
+        // Render the command builder
+        function renderCommandBuilder(index) {
+            const commandContainer = document.getElementById(`command-container-${index}`);
+            const artifact = artifacts[index];
+
+            if (!commandContainer) return;
+
+            let builderHTML = `
+                <div class="command-builder">
+                    <div class="section-title">Item Selection</div>
+                    <div class="item-select-container">
+                        <div class="item-search">
+                            <input type="text" id="item-search-${index}" placeholder="Search items..." 
+                                  onkeyup="filterItems(${index}, this.value)">
+                            <button class="clear-search" id="clear-search-${index}" onclick="clearSearch(${index})">×</button>
+                        </div>
+                        <div class="item-select">
+                            <select id="item-type-${index}" onchange="updateArtifactItem(${index}, this.value)">
+                                <option value="" disabled ${!artifact.itemType ? 'selected' : ''}>Select an item</option>
+                                ${minecraftItems.map(item =>
+                `<option value="${item}" ${artifact.itemType === item ? 'selected' : ''}>${item}</option>`
+            ).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="section-title">Custom Name</div>
+                    <input type="text" id="custom-name-${index}" placeholder="Item name" 
+                           value="${artifact.customName || ''}" 
+                           onchange="updateArtifactProp(${index}, 'customName', this.value)">
+                    
+                    <div class="section-title">Name Formatting</div>
+                    <select id="name-color-${index}" onchange="updateArtifactProp(${index}, 'nameColor', this.value)">
+                        <option value="" disabled ${!artifact.nameColor ? 'selected' : ''}>Select color</option>
+                        ${minecraftColors.map(color =>
+                `<option value="${color}" ${artifact.nameColor === color ? 'selected' : ''}>${color}</option>`
+            ).join('')}
+                    </select>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="name-bold-${index}" 
+                                   ${artifact.nameBold ? 'checked' : ''} 
+                                   onchange="updateArtifactProp(${index}, 'nameBold', this.checked)">
+                            Bold
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="name-italic-${index}" 
+                                   ${artifact.nameItalic ? 'checked' : ''} 
+                                   onchange="updateArtifactProp(${index}, 'nameItalic', this.checked)">
+                            Italic
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="name-underlined-${index}" 
+                                   ${artifact.nameUnderlined ? 'checked' : ''} 
+                                   onchange="updateArtifactProp(${index}, 'nameUnderlined', this.checked)">
+                            Underlined
+                        </label>
+                    </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="section-title">Lore</div>
+                    <button class="add-lore-btn" onclick="addLoreEntry(${index})">+ Add Lore Line</button>
+                    
+                    <div id="lore-entries-${index}">
+                        ${artifact.lore && artifact.lore.map((lore, loreIndex) => `
+                            <div class="lore-entry">
+                                <input type="text" placeholder="Lore text" 
+                                       value="${lore.text || ''}" 
+                                       onchange="updateLoreText(${index}, ${loreIndex}, this.value)">
+                                <select onchange="updateLoreProp(${index}, ${loreIndex}, 'color', this.value)">
+                                    ${minecraftColors.map(color =>
+                `<option value="${color}" ${lore.color === color ? 'selected' : ''}>${color}</option>`
+            ).join('')}
+                                </select>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" ${lore.bold ? 'checked' : ''} 
+                                           onchange="updateLoreProp(${index}, ${loreIndex}, 'bold', this.checked)">
+                                    B
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" ${lore.italic ? 'checked' : ''} 
+                                           onchange="updateLoreProp(${index}, ${loreIndex}, 'italic', this.checked)">
+                                    I
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" ${lore.underlined ? 'checked' : ''} 
+                                           onchange="updateLoreProp(${index}, ${loreIndex}, 'underlined', this.checked)">
+                                    U
+                                </label>
+                                <button class="remove-lore-btn" onclick="removeLoreEntry(${index}, ${loreIndex})">×</button>
+                            </div>
+                        `).join('') || ''}
+                    </div>
+                </div>
+                
+                <div class="section-title">Generated Command:</div>
+                <textarea id="command-textarea-${index}" 
+                    readonly
+                    placeholder="Command will be generated here..."
+                    onchange="updateArtifact(${index}, 'command', this.value)">${artifact.command || ''}</textarea>
+            `;
+
+            commandContainer.innerHTML = builderHTML;
+        }
+
+        // Update artifact item
+        function updateArtifactItem(index, value) {
+            artifacts[index].itemType = value;
+            updateItemCommand(index);
+        }
+
+        // Update artifact property
+        function updateArtifactProp(index, prop, value) {
+            artifacts[index][prop] = value;
+            updateItemCommand(index);
+        }
+
         // Add an artifact
         function addArtifact() {
             const tagNum = artifacts.length + 1;
             const rot = randomRotation();
-            
+
             artifacts.push({
                 name: '',
                 command: '',
+                itemType: '',
+                customName: '',
+                nameColor: 'white',
+                nameBold: false,
+                nameItalic: false,
+                nameUnderlined: false,
+                lore: [],
                 tag: tagNum,
                 scale: 0.5,
                 rotX: rot.euler[0],
@@ -280,26 +1886,26 @@
                 rotZ: rot.euler[2],
                 quaternion: rot.quaternion
             });
-            
+
             renderArtifacts();
         }
-        
+
         // Remove an artifact
         function removeArtifact(index) {
             artifacts.splice(index, 1);
-            
+
             // Reassign tag numbers
             artifacts.forEach((artifact, i) => {
                 artifact.tag = i + 1;
             });
-            
+
             renderArtifacts();
         }
-        
+
         // Update artifact data
         function updateArtifact(index, field, value) {
             artifacts[index][field] = value;
-            
+
             // Update quaternion if rotation changed
             if (field === 'rotX' || field === 'rotY' || field === 'rotZ') {
                 const artifact = artifacts[index];
@@ -307,7 +1913,7 @@
                 updateRotationDisplay(index);
             }
         }
-        
+
         // Update rotation display
         function updateRotationDisplay(index) {
             const display = document.getElementById(`rotation-display-${index}`);
@@ -316,7 +1922,7 @@
                 display.textContent = `[${artifact.quaternion[0]}f,${artifact.quaternion[1]}f,${artifact.quaternion[2]}f,${artifact.quaternion[3]}f]`;
             }
         }
-        
+
         // Set random rotation for an artifact
         function setRandomRotation(index) {
             const rot = randomRotation();
@@ -324,37 +1930,37 @@
             artifacts[index].rotY = rot.euler[1];
             artifacts[index].rotZ = rot.euler[2];
             artifacts[index].quaternion = rot.quaternion;
-            
+
             // Update UI
             const xInput = document.getElementById(`rotX-${index}`);
             const yInput = document.getElementById(`rotY-${index}`);
             const zInput = document.getElementById(`rotZ-${index}`);
-            
+
             if (xInput) xInput.value = rot.euler[0];
             if (yInput) yInput.value = rot.euler[1];
             if (zInput) zInput.value = rot.euler[2];
-            
+
             updateRotationDisplay(index);
         }
-        
+
         // Render the artifact list
         function renderArtifacts() {
             artifactList.innerHTML = '';
-            
+
             if (artifacts.length === 0) {
                 artifactList.innerHTML = '<p>No artifacts added yet. Click "Add New Artifact" to begin.</p>';
                 return;
             }
-            
+
             artifacts.forEach((artifact, index) => {
                 const artifactDiv = document.createElement('div');
                 artifactDiv.className = 'artifact-entry';
-                
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = 'delete-btn';
                 deleteBtn.textContent = '×';
                 deleteBtn.addEventListener('click', () => removeArtifact(index));
-                
+
                 artifactDiv.innerHTML = `
                     <span class="artifact-count">#${index + 1}</span>
                     <span class="artifact-tag">Tag: ${artifact.tag}</span>
@@ -364,12 +1970,12 @@
                             placeholder="e.g., Flint Arrowhead"
                             onchange="updateArtifact(${index}, 'name', this.value)">
                     </label>
-                    <label>
-                        <strong>Minecraft Item Command:</strong>
-                        <textarea 
-                            placeholder="Paste command from MCStacker here..."
-                            onchange="updateArtifact(${index}, 'command', this.value)">${artifact.command}</textarea>
-                    </label>
+                    
+                    <button id="toggle-cmd-btn-${index}" class="toggle-cmd-btn" onclick="toggleCommand(${index})">Show Command Builder</button>
+                    
+                    <div id="command-container-${index}" class="command-container" style="display: none;">
+                        <!-- Command builder will be rendered here -->
+                    </div>
                     
                     <div class="transform-container">
                         <div class="transform-title">Transform Properties:</div>
@@ -412,50 +2018,53 @@
                         </div>
                     </div>
                 `;
-                
+
                 artifactDiv.appendChild(deleteBtn);
                 artifactList.appendChild(artifactDiv);
+
+                // Render the command builder
+                renderCommandBuilder(index);
             });
         }
-        
+
         // Generate the function file content
         function generateFunction() {
             if (artifacts.length === 0) {
                 alert('Please add at least one artifact first!');
                 return;
             }
-            
+
             let invalidArtifacts = artifacts.filter(a => !a.command.trim());
             if (invalidArtifacts.length > 0) {
-                alert('Some artifacts are missing commands. Please complete all fields.');
+                alert('Some artifacts are missing commands. Please complete the command builder for all artifacts.');
                 return;
             }
-            
+
             let functionContent = '# give_artifacts.mcfunction\n';
-            functionContent += '# Generated by Archaeology Artifacts Generator\n';
+            functionContent += '# Generated by Archaeology Artifacts Generator created by Gilan\n';
             functionContent += `# Total artifacts: ${artifacts.length}\n\n`;
-            
+
             artifacts.forEach(artifact => {
                 // Parse and modify the command to add the tag, scale, and rotation
                 let command = artifact.command.trim();
-                
+
                 // Remove leading slash if present
                 if (command.startsWith('/')) {
                     command = command.substring(1);
                 }
-                
+
                 // Format quaternion and scale
                 const quaternion = artifact.quaternion;
                 const scaleValue = artifact.scale.toFixed(1);
-                
+
                 // Format the custom data with tag, scale, and rotation values
                 const customData = `tag:${artifact.tag},scale:[${scaleValue}f,${scaleValue}f,${scaleValue}f],rotation:[${quaternion[0]}f,${quaternion[1]}f,${quaternion[2]}f,${quaternion[3]}f]`;
-                
+
                 // Check if command already has custom_data
                 if (command.includes('custom_data={')) {
                     // Already has custom_data, add our properties
-                    command = command.replace(/custom_data={\s*([^}]*)\s*}/, 
-                                             `custom_data={$1,${customData}}`);
+                    command = command.replace(/custom_data={\s*([^}]*)\s*}/,
+                        `custom_data={$1,${customData}}`);
                 } else if (command.includes('] 1')) {
                     // Add custom_data before the closing ]
                     command = command.replace(/\] 1$/, `,custom_data={${customData}}] 1`);
@@ -463,44 +2072,45 @@
                     // Add custom_data with tag before quantity if no brackets
                     command = command.replace(/ 1$/, `[custom_data={${customData}}] 1`);
                 }
-                
-                const artifactName = artifact.name ? 
-                                    `# ${artifact.name} (Tag: ${artifact.tag})` : 
-                                    `# Artifact with Tag: ${artifact.tag}`;
-                
+
+                const artifactName = artifact.name ?
+                    `# ${artifact.name} (Tag: ${artifact.tag})` :
+                    `# Artifact with Tag: ${artifact.tag}`;
+
                 functionContent += `${artifactName}\n`;
                 functionContent += `# Scale: [${scaleValue}f,${scaleValue}f,${scaleValue}f], Rotation: [${quaternion[0]}f,${quaternion[1]}f,${quaternion[2]}f,${quaternion[3]}f]\n`;
                 functionContent += `${command}\n\n`;
             });
-            
+
             outputCode.textContent = functionContent;
             functionOutput.style.display = 'block';
         }
-        
+
         // Download the function file
         function downloadFunction() {
             if (!outputCode.textContent) {
                 alert('Please generate the function first!');
                 return;
             }
-            
+
             const blob = new Blob([outputCode.textContent], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.href = url;
             a.download = 'give_artifacts.mcfunction';
             document.body.appendChild(a);
             a.click();
-            
+
             setTimeout(() => {
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
             }, 0);
         }
-        
+
         // Initialize with one empty artifact
         addArtifact();
     </script>
 </body>
+
 </html>
