@@ -121,6 +121,11 @@
     </div>
 
     <div class="hopper-config">
+        <h3>Number of Artifacts</h3>
+        <input type="number" id="artifactNumber" placeholder="0">
+    </div>
+
+    <div class="hopper-config">
         <h3>Function Namespace:</h3>
         <input type="text" id="namespace" value="archaeology" placeholder="Enter function namespace">
     </div>
@@ -153,6 +158,7 @@
             document.getElementById("hopperX").value = "~";
             document.getElementById("hopperY").value = "~";
             document.getElementById("hopperZ").value = "~";
+            document.getElementById("artifactNumber").value = 0
             addPage("The sky is blue.", "true", "1,2,3", 1); // Default page
         };
 
@@ -278,6 +284,7 @@
             let hopperX = document.getElementById("hopperX").value || "~";
             let hopperY = document.getElementById("hopperY").value || "~";
             let hopperZ = document.getElementById("hopperZ").value || "~";
+            let artifactNumber = document.getElementById("artifactNumber").value || 0;
             let namespace = document.getElementById("namespace").value || "archaeo";
 
             // Prepare the book command
@@ -341,6 +348,16 @@ ${pages.map((_, index) => `scoreboard objectives add textbook_q${index + 1} dumm
             # Check for each possible tag
             ${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
 
+            # Mark incorrect for other tags
+            ${parseInt(artifactNumber) > 0 ?
+                        [...Array(parseInt(artifactNumber)).keys()]
+                            .map(i => i + 1) // Convert to 1-based index
+                            .filter(tag => !page.possibleTags.includes(tag.toString())) // Convert number to string for comparison
+                            .map(tag =>
+                                `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players remove @s tagCheck 5`
+                            ).join('\n')
+                        : '# No artifacts configured'}
+
             # Execute appropriate function based on whether enough tags are present
             execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'true' ? correctFunctionName : incorrectFunctionName}
             ${page.correctAnswer === 'true' ?
@@ -355,6 +372,16 @@ ${pages.map((_, index) => `scoreboard objectives add textbook_q${index + 1} dumm
 
             # Check for each possible tag
             ${page.possibleTags.map(tag => `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players add @s tagCheck 1`).join('\n')}
+
+            # Mark incorrect for other tags
+            ${parseInt(artifactNumber) > 0 ?
+                        [...Array(parseInt(artifactNumber)).keys()]
+                            .map(i => i + 1) // Convert to 1-based index
+                            .filter(tag => !page.possibleTags.includes(tag.toString())) // Convert number to string for comparison
+                            .map(tag =>
+                                `execute if block ${hopperX} ${hopperY} ${hopperZ} minecraft:hopper{Items:[{components:{"minecraft:custom_data":{tag:${tag}}}}]} run scoreboard players remove @s tagCheck 5`
+                            ).join('\n')
+                        : '# No artifacts configured'}
 
             # Execute appropriate function based on whether enough tags are present
             execute if score @s tagCheck matches ${page.requiredAmount}.. run function ${page.correctAnswer === 'false' ? correctFunctionName : incorrectFunctionName}
